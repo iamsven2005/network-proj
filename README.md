@@ -56,14 +56,14 @@ level 4
 - switchport mode access
 - swichport access vlan [ number ]
 
-[LocalImage](./md_img/Lv4-VLAN/interface_vlan-06-02-25.png)
+![LocalImage](./md_img/Lv4-VLAN/interface_vlan-06-02-25.png)
 
 **Commands done for switchport trunking: (VLAN 20/VLAN 60)**
 
 - switchport mode trunk
 - switchport mode dynamic desirable
 
-[LocalImage](./md_img/Lv4-VLAN/interface_trunk-06-02-25.png)
+![LocalImage](./md_img/Lv4-VLAN/interface_trunk-06-02-25.png)
 
 **Configured VLAN 10 for following interfaces:**
 
