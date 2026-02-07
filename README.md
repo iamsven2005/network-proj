@@ -81,13 +81,13 @@ level 4
 
 - G1/0/3
 
-hr ex g1/0/9 v20 172.16.1.211/28
-hr m g1/0/8 v20 172.16.1.212/28
+hr ex g1/0/9 v20 172.16.1.216/28
+hr m g1/0/8 v20 172.16.1.215/28
 dy cm g1/0/7 v10 172.16.1.3/26
 s1 g1/0/6 v10 172.16.1.4/26
 s2 g1/0/5 v10 172.16.1.5/26
 cm g1/0/4 v10 172.16.1.6/26
-net eng g1/0/3 v60
+net eng g1/0/3 v60 172.16.1.145/28
 
 172.16.1.243
 cs (meeting room) g1/0/1 f0/4 cs1
@@ -95,40 +95,14 @@ cs (meeting room) g1/0/13 f0/8 cs1
 cs (meeting room) g1/0/14 f0/9 cs2
 cs (meeting room) g1/0/2 f0/3 cs2
 
-level 2 - Howard
-**Create VLANs 20, 30, 60 on Access L2 Switch (Done)** ![LocalImage](./md_img/Lv2-VLAN/L2SwitchVlanBrief.png)
-**Create All VLANs on both distribution switches (Done)** ![LocalImage](./md_img/Lv2-VLAN/CS1VlanBrief.png) , ![LocalImage](./md_img/Lv2-VLAN/CS2VlanBrief.png)
-**EtherChannel Access Switch L2 interfaces to both Distribution switches (Done)** ![LocalImage](./md_img/Lv2-VLAN/SwitchEtherChannel.png)
-L3 EtherChannel Distribution Switch 1 & 2 together 
-Setting up SVI and interface IP for intervlan routing (idrg the ip table)
-**Setup IP Addresses For Host devices on Level 2 (Done)**
-
-
-Network Engineer f0/22 v60 172.16.1.139/28
-HR Executive f0/21 v20 172.16.1.213/28
-Sales Manager f0/9 v30 172.16.1.67/26
-Dy Sales Manager f0/8 v30 172.16.1.68/26
-Sales Executive 1 f0/10 v30 172.16.1.69/26
-Sales Executive 2 f0/7 v30 172.16.1.70/26
-Sales Executive 3 f0/6 v30 172.16.1.71/26
-Sales Executive 4 f0/5 v30 172.16.1.72/26
-Sales Executive 5 f0/4 v30 172.16.1.73/26
-Sales Executive 6 f0/3 v30 172.16.1.74/26
-Sales Executive 7 f0/2 v30 172.16.1.75/26
-Sales Executive 8 f0/1 v30 172.16.1.76/26
-172.16.1.245 <- What it do?
-Layer 2 Switch Interface f0/11 f0/5 Core Switch 1 Interface
-Layer 2 Switch Interface f0/16 f0/10 Core Switch 1 Interface
-Layer 2 Switch Interface f0/12 f0/4 Core Switch 2 Interface
-Layer 2 Switch Interface f0/17 f0/11 Core Switch 2 Interface
 
 level 3
 sol m f0/10 v50 172.16.1.227/28
 s sol d1 f0/9 v50 172.16.1.228/28
 s sol d2 f0/8 v50 172.16.1.229/28
-net m f0/7 v60 172.16.1.140/28
-net m f0/6 v60 172.16.1.141/28
-s net eng f0/5 v50 172.16.1.230/28
+net m f0/7 v60 172.16.1.142/28
+net m f0/6 v60 172.16.1.143/28
+s net eng f0/5 v50 172.16.1.230(144)/28 <- Why is bro in the Solutions developer VLAN?
 hr ex f0/4 v20 172.16.1.214/28
 web server f0/3 v70 172.16.1.131/29
 dns cache f0/2 v70 172.16.1.132/29
@@ -139,6 +113,35 @@ l3s f0/16 f0/9 cs1
 l3s f0/12 f0/6 cs2
 l3s f0/17 f0/12 cs2
 
+
+level 2 - Howard
+**Create VLANs 20, 30, 60 on Access L2 Switch (Done)** ![LocalImage](./md_img/Lv2-VLAN/L2SwitchVlanBrief.png)
+**Create All VLANs on both distribution switches (Done)** ![LocalImage](./md_img/Lv2-VLAN/CS1VlanBrief.png) , ![LocalImage](./md_img/Lv2-VLAN/CS2VlanBrief.png)
+**EtherChannel Access Switch L2 interfaces to both Distribution switches (Done)** ![LocalImage](./md_img/Lv2-VLAN/L2SwitchEtherChannel.png)
+L3 EtherChannel Distribution Switch 1 & 2 together 
+Setting up SVI and interface IP for intervlan routing (idrg the ip table) Only able to do for VLAN 20 & 30
+**Setup IP Addresses For Host devices on Level 2 (Done)**
+
+level 2 (Sales Department Goons)
+Network Engineer f0/22 v60 172.16.1.141/28
+HR Executive f0/21 v20 172.16.1.213/28
+Sales Manager f0/9 v30 172.16.1.68/26
+Dy Sales Manager f0/8 v30 172.16.1.69/26
+Sales Executive 1 f0/10 v30 172.16.1.70/26
+Sales Executive 2 f0/7 v30 172.16.1.71/26
+Sales Executive 3 f0/6 v30 172.16.1.72/26
+Sales Executive 4 f0/5 v30 172.16.1.73/26
+Sales Executive 5 f0/4 v30 172.16.1.74/26
+Sales Executive 6 f0/3 v30 172.16.1.75/26
+Sales Executive 7 f0/2 v30 172.16.1.76/26
+Sales Executive 8 f0/1 v30 172.16.1.77/26
+172.16.1.245 <- What it do?
+Layer 2 Switch Interface f0/11 f0/5 Core Switch 1 Interface
+Layer 2 Switch Interface f0/16 f0/10 Core Switch 1 Interface
+Layer 2 Switch Interface f0/12 f0/4 Core Switch 2 Interface
+Layer 2 Switch Interface f0/17 f0/11 Core Switch 2 Interface
+
+
 level 1
 172.16.1.246
 l1s f0/16 f0/5 cs2
@@ -147,8 +150,8 @@ l1s f0/15 f0/6 cs1
 l1s f0/20 f0/11 cs1
 ser m f0/9 v40 172.16.1.179/27
 dy ser m f0/8 v40 172.16.1.180/27
-hr ex f0/14 v20 172.16.1.214/28
-net eng f0/13 v60 172.16.1.142/28
+hr ex f0/14 v20 172.16.1.212/28
+net eng f0/13 v60 172.16.1.140/28
 ser ex1 f0/10 v40 172.16.1.181/27
 ser ex2 f0/7 v40 172.16.1.182/27
 ser ex3 f0/6 v40 172.16.1.183/27
@@ -183,10 +186,33 @@ VLAN Purpose Subnet Usable hosts
 50 Solutions + related 172.16.1.224/28 14
 99 Switch_Management + native 172.16.1.240/28 14
 
-
 L3 Etherchannel 
 CS1 INT F0/7 F0/7 INT CS2
 CS1 INT F0/12 F0/8 INT CS2
+
+VLAN 20 HR /28 16 host
+1st IP - 172.16.1.208
+HSRP vIP - 172.16.1.209
+CS1 IP - 172.16.1.210
+CS2 IP - 172.16.1.211
+hosts - 172.16.1.212-216
+Last IP - 172.16.1.223
+
+VLAN 30 /26 64 host (Maybe we can reduce this to .224(/27) to save ips)
+1st IP - 172.16.1.64
+HSRP vIP - 172.16.1.65
+CS1 IP - 172.16.1.66
+CS2 IP - 172.16.1.67
+hosts - 172.16.1.68-77
+Last IP - 172.16.1.127
+
+VLAN 60 /28 16 host
+1st IP - 172.16.1.136 (Not possible to start Here) ![LocalImage](./md_img/Lv2-VLAN/CS1-iproute.png)
+HSRP vIP - 172.16.1.137
+CS1 IP - 172.16.1.138
+CS2 IP - 172.16.1.139
+hosts - 172.16.1.140-145
+Last IP - 172.16.1.151
 
 I abandoned the mesh design because
 
