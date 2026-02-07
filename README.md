@@ -95,24 +95,32 @@ cs (meeting room) g1/0/13 f0/8 cs1
 cs (meeting room) g1/0/14 f0/9 cs2
 cs (meeting room) g1/0/2 f0/3 cs2
 
-level 2
-net eng f0/22 v60 172.16.1.139/28
-hr ex f0/21 v20 172.16.1.213/28
-se7 f0/20 v30 172.16.1.67/26
-se1 f0/10 v30 172.16.1.68/26
-sm f0/9 v30 172.16.1.69/26
-dy sm f0/8 v30 172.16.1.70/26
-se2 f0/7 v30 172.16.1.71/26
-se3 f0/6 v30 172.16.1.72/26
-se4 f0/5 v30 172.16.1.73/26
-se5 f0/4 v30 172.16.1.74/26
-se6 f0/3 v30 172.16.1.75/26
-se8 f0/1 v30 172.16.1.76/26
-172.16.1.245
-l2s f0/17 f0/11 cs2
-l2s f0/4 f0/12 cs2
-l2s f0/5 f0/11 cs1
-l2s f0/16 f0/10 cs1
+level 2 - Howard
+**Create VLANs 20, 30, 60 on Access L2 Switch (Done)** ![LocalImage](./md_img/Lv2-VLAN/L2SwitchVlanBrief.png)
+**Create All VLANs on both distribution switches (Done)** ![LocalImage](./md_img/Lv2-VLAN/CS1VlanBrief.png) , ![LocalImage](./md_img/Lv2-VLAN/CS2VlanBrief.png)
+**EtherChannel Access Switch L2 interfaces to both Distribution switches (Done)** ![LocalImage](./md_img/Lv2-VLAN/SwitchEtherChannel.png)
+L3 EtherChannel Distribution Switch 1 & 2 together 
+Setting up SVI and interface IP for intervlan routing (idrg the ip table)
+**Setup IP Addresses For Host devices on Level 2 (Done)**
+
+
+Network Engineer f0/22 v60 172.16.1.139/28
+HR Executive f0/21 v20 172.16.1.213/28
+Sales Manager f0/9 v30 172.16.1.67/26
+Dy Sales Manager f0/8 v30 172.16.1.68/26
+Sales Executive 1 f0/10 v30 172.16.1.69/26
+Sales Executive 2 f0/7 v30 172.16.1.70/26
+Sales Executive 3 f0/6 v30 172.16.1.71/26
+Sales Executive 4 f0/5 v30 172.16.1.72/26
+Sales Executive 5 f0/4 v30 172.16.1.73/26
+Sales Executive 6 f0/3 v30 172.16.1.74/26
+Sales Executive 7 f0/2 v30 172.16.1.75/26
+Sales Executive 8 f0/1 v30 172.16.1.76/26
+172.16.1.245 <- What it do?
+Layer 2 Switch Interface f0/11 f0/5 Core Switch 1 Interface
+Layer 2 Switch Interface f0/16 f0/10 Core Switch 1 Interface
+Layer 2 Switch Interface f0/12 f0/4 Core Switch 2 Interface
+Layer 2 Switch Interface f0/17 f0/11 Core Switch 2 Interface
 
 level 3
 sol m f0/10 v50 172.16.1.227/28
@@ -164,17 +172,21 @@ ISP links (you didn’t give IPs, so allocate next clean /30s):
 ISP1 ↔ R2 g0/0 : 172.16.1.168/30 (R2=172.16.1.169, ISP1=172.16.1.170)
 
 ISP2 ↔ R1 g0/0 : 172.16.1.172/30 (R1=172.16.1.173, ISP2=172.16.1.174)
-
 VLAN Purpose Subnet Usable hosts
-10 DY / S1 / S2 / CM 172.16.1.0/26 62
-30 SE / SM group 172.16.1.64/26 62
-70 DNS/Web servers 172.16.1.128/29 6
-60 Net Eng 172.16.1.136/28 14
+10 Managers / S1 / S2 / CM 172.16.1.0/26 62
+30 Sales / SM group 172.16.1.64/26 62
+70 DNS/Web_Servers 172.16.1.128/29 6
+60 Networking Eng 172.16.1.136/28 14
 (reserved) routed links + ISPs 172.16.1.152–175 (your P2P + ISP)
 40 Server VLAN (expanded) 172.16.1.176/27 ✅ 30
 20 HR 172.16.1.208/28 14
-50 SOL + related 172.16.1.224/28 14
-99 Switch mgmt + native 172.16.1.240/28 14
+50 Solutions + related 172.16.1.224/28 14
+99 Switch_Management + native 172.16.1.240/28 14
+
+
+L3 Etherchannel 
+CS1 INT F0/7 F0/7 INT CS2
+CS1 INT F0/12 F0/8 INT CS2
 
 I abandoned the mesh design because
 
