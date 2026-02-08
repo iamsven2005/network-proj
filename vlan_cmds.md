@@ -86,7 +86,7 @@ Access Switch 4
 CS1
 
 * vlan 10
-* name Meeting\_RMs
+* name Meeting_RMs
 * vlan 20
 * name CS
 * vlan 30

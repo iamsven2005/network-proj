@@ -201,7 +201,7 @@ Redo VLAN & Subnetting from Biggest to smallest
 /28 - 255.255.255.240
 /29 - 255.255.255.248
 
-(I addded vlam 10 in case we need IPs for the people in the meeting room. Safety measures xD)
+(I addded vlan 10 in case we need IPs for the people in the meeting room. Safety measures xD)
 VLAN 10 (Meeting_RMs)/26 -  28+6+3 hosts |  Uses 37/64 Addresses 
 1st IP - 172.16.1.0
 HSRP vIP - 172.16.1.1
