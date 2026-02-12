@@ -148,20 +148,20 @@ l1s f0/16 f0/5 cs2
 l1s f0/21 f0/10 cs2
 l1s f0/15 f0/6 cs1
 l1s f0/20 f0/11 cs1
-ser m f0/9 v40 172.16.1.179/27
-dy ser m f0/8 v40 172.16.1.180/27
+Service m f0/9 v40 172.16.1.179/27
+dy Service m f0/8 v40 172.16.1.180/27
 hr ex f0/14 v20 172.16.1.212/28
 net eng f0/13 v60 172.16.1.140/28
-ser ex1 f0/10 v40 172.16.1.181/27
-ser ex2 f0/7 v40 172.16.1.182/27
-ser ex3 f0/6 v40 172.16.1.183/27
-ser ex4 f0/5 v40 172.16.1.174/27
-ser ex5 f0/4 v40 172.16.1.175/27
-ser ex6 f0/3 v40 172.16.1.176/27
-ser ex7 f0/2 v40 172.16.1.177/27
-ser ex8 f0/1 v40 172.16.1.178/27
-ser ex9 f0/11 v40 172.16.1.179/27
-ser ex10 f0/12 v40 172.16.1.180/27
+Service ex1 f0/10 v40 172.16.1.181/27
+Service ex2 f0/7 v40 172.16.1.182/27
+Service ex3 f0/6 v40 172.16.1.183/27
+Service ex4 f0/5 v40 172.16.1.174/27
+Service ex5 f0/4 v40 172.16.1.175/27
+Service ex6 f0/3 v40 172.16.1.176/27
+Service ex7 f0/2 v40 172.16.1.177/27
+Service ex8 f0/1 v40 172.16.1.178/27
+Service ex9 f0/11 v40 172.16.1.179/27
+Service ex10 f0/12 v40 172.16.1.180/27
 
 1. Point-to-Point routed links (keep your given IPs)
    Link Subnet Side A IP Side B IP
@@ -172,9 +172,9 @@ ser ex10 f0/12 v40 172.16.1.180/27
 
 ISP links (you didn’t give IPs, so allocate next clean /30s):
 
-ISP1 ↔ R2 g0/0 : 172.16.1.168/30 (R2=172.16.1.169, ISP1=172.16.1.170)
+ISP1 ↔ R2 g0/0 : 172.16.1.168/30 (R2=172.16.1.169, ISP1=172.16.1.170) (Change this)
 
-ISP2 ↔ R1 g0/0 : 172.16.1.172/30 (R1=172.16.1.173, ISP2=172.16.1.174)
+ISP2 ↔ R1 g0/0 : 172.16.1.172/30 (R1=172.16.1.173, ISP2=172.16.1.174) (Change this)
 VLAN Purpose Subnet Usable hosts
 10 Managers / S1 / S2 / CM 172.16.1.0/26 62
 30 Sales / SM group 172.16.1.64/26 62
@@ -190,29 +190,93 @@ L3 Etherchannel
 CS1 INT F0/7 F0/7 INT CS2
 CS1 INT F0/12 F0/8 INT CS2
 
-VLAN 20 HR /28 16 host
-1st IP - 172.16.1.208
-HSRP vIP - 172.16.1.209
-CS1 IP - 172.16.1.210
-CS2 IP - 172.16.1.211
-hosts - 172.16.1.212-216
-Last IP - 172.16.1.223
+Comments abt packet tracer files 
+1. instead of using a l3 switch as it is confusing for level 4, we trunk 2 l2 switches to simulate a 48 port l2 switch
+2. We are missing 2/5 hosts in our solutions department, i added that in already
+3. Interfaces are a lil messy but it works properly.
 
-VLAN 30 /26 64 host (Maybe we can reduce this to .224(/27) to save ips)
+Redo VLAN & Subnetting from Biggest to smallest
+/26 - 255.255.255.192
+/27 - 255.255.255.224
+/28 - 255.255.255.240
+/29 - 255.255.255.248
+
+(I addded vlan 10 in case we need IPs for the people in the meeting room. Safety measures xD)
+VLAN 10 (Meeting_RMs)/26 -  28+6+3 hosts |  Uses 37/64 Addresses 
+1st IP - 172.16.1.0
+HSRP vIP - 172.16.1.1
+CS1 IP - 172.16.1.2
+CS2 IP - 172.16.1.3
+hosts (34) - 172.16.1.4-36
+last IP - 172.16.1.63
+
+VLAN 20 (CS)/27 - 12+3 hosts Uses | 17/32 ADdresses
 1st IP - 172.16.1.64
 HSRP vIP - 172.16.1.65
 CS1 IP - 172.16.1.66
 CS2 IP - 172.16.1.67
-hosts - 172.16.1.68-77
-Last IP - 172.16.1.127
+hosts (12) - 172.16.1.68-79
+last IP - 172.16.1.95
 
-VLAN 60 /28 16 host
-1st IP - 172.16.1.136 (Not possible to start Here) ![LocalImage](./md_img/Lv2-VLAN/CS1-iproute.png)
-HSRP vIP - 172.16.1.137
-CS1 IP - 172.16.1.138
-CS2 IP - 172.16.1.139
-hosts - 172.16.1.140-145
-Last IP - 172.16.1.151
+VLAN 30 (Marketing)/28 -  needs 10+3 | Uses 15/16 addresses
+1st IP - 172.16.1.96
+HSRP vIP - 172.16.1.97
+CS1 IP - 172.16.1.98
+CS2 IP - 172.16.1.99
+hosts (10) - 172.16.1.100-109
+last IP - 172.16.1.111
+
+VLAN 40 (Networking)/28 - Needs 6+3 | Uses 11/16 addresses
+1st IP - 172.16.1.112
+HSRP vIP - 172.16.1.113
+CS1 IP - 172.16.1.114
+CS2 IP - 172.16.1.115
+hosts(6) - 172.16.1.116-121
+last IP - 172.16.1.127
+
+VLAN 50 (Solutions)/28 - Needs 5+3 | Uses 10/16 addresses 
+1st IP - 172.16.1.128
+HSRP vIP - 172.16.1.129
+CS1 IP - 172.16.1.130
+CS2 IP - 172.16.1.131
+hosts(5) - 172.16.1.132-136
+last IP - 172.16.1.143
+
+VLAN 60 (HR)/28 - Needs 5+3 | Uses 10/16 addresses
+1st IP - 172.16.1.144
+HSRP vIP - 172.16.1.145
+CS1 IP - 172.16.1.146
+CS2 IP - 172.16.1.147
+hosts(5) - 172.16.1.148-152
+last IP - 172.16.1.159
+
+VLAN 70 (Managers)/28 - Needs 4+3 | Uses 9/16 addresses
+1st IP - 172.16.1.160
+HSRP vIP - 172.16.1.161
+CS1 IP - 172.16.1.162
+CS2 IP - 172.16.1.163
+hosts(4) - 172.16.1.164-167
+last IP - 172.16.1.175
+
+VLAN 99 (Switch_MGM) - Assume up to 16 hosts might be needed /28
+1st IP - 172.16.1.176
+HSRP vIP - 172.16.1.177
+CS1 IP - 172.16.1.178
+CS2 IP - 172.16.1.179
+hosts(11) - 172.16.1.180-190
+last IP - 172.16.1.191
+
+VLAN 80 (Servers)/29 - Needs 3+3 | Uses 8/8 Addresses
+1st IP - 172.16.1.192
+HSRP vIP - 172.16.1.193
+CS1 IP - 172.16.1.194
+CS2 IP - 172.16.1.195
+hosts(3) - 172.16.1.196-198
+last IP - 172.16.1.199
+
+Non VLAN Ips
+172.16.1.200-255 Free to use for other purposes.
+
 
 I abandoned the mesh design because
 
