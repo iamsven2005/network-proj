@@ -275,8 +275,16 @@ hosts(3) - 172.16.1.196-198
 last IP - 172.16.1.199
 
 Non VLAN Ips
-172.16.1.200-255 Free to use for other purposes.
+172.16.1.204-255 Free to use for other purposes.
 
+172.16.1.201/202 for L3 etherchannel
+
+rack num - 4(rack row) - 6 = f | 4f = last octet of assigned address block 172.17.9.XX
+router to isp = first usable
+230.149.210 + [8f // 256].296%256 = public IP for ISP1 
+
+address block 172.17.10.XX
+129.126.142 + [8f // 256].296%256 = public IP for ISP2 
 
 I abandoned the mesh design because
 
