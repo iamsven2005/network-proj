@@ -520,6 +520,35 @@ ip route 0.0.0.0 0.0.0.0 230.149.210.1
 
 
 
+ip nat inside source static 172.16.10.149 230.149.210.9
+
+interface GigabitEthernet1/0/1
+ip nat outside
+no shutdown
+
+int g0/0/1
+ip add 172.16.1.206 255.255.255.252
+ip nat inside
+no shut
+
+int g0/0/0
+ip add 172.16.1.218 255.255.255.252
+ip nat inside
+no shut
+
+
+ip nat inside source static tcp 172.16.1.196 80 230.149.210.2 80
+ip nat inside source static tcp 172.16.1.196 443 230.149.210.2 443
+
+ip route 0.0.0.0 0.0.0.0 230.149.210.1
+
+
+
+
+
+
+
+
 
 
 
