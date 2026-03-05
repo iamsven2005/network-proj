@@ -279,7 +279,7 @@ Non VLAN Ips
 
 172.16.1.201/202 for L3 etherchannel
 
-rack num - 4(rack row) - 6 = f | 4f = last octet of assigned address block 172.17.9.XX
+11 - 4(11) - 6 = f | 4f = last octet of assigned address block 172.17.9.XX
 router to isp = first usable
 230.149.210 + [8f // 256].296%256 = public IP for ISP1 
 

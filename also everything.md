@@ -212,9 +212,39 @@ channel-group 5 mode on
 switchport trunk allowed vlan 99
 int po5
 ip add 172.16.1.201 255.255.255.252
-
-
-
+int vlan 10 
+standby version 2
+standby 1 ip 172.16.1.1
+standby 1 priority 150
+standby 1 preempt
+int vlan 20
+standby version 2
+standby 2 ip 172.16.1.65
+standby 2 priority 150
+standby 2 preempt
+int vlan 30
+standby version 2
+standby 3 ip 172.16.1.97
+standby 3 priority 150
+standby 2 preempt
+int vlan 40
+standby version 2
+standby 4 ip 172.16.1.113
+standby 4 priority 150
+standby 4 preempt
+int vlan 50
+standby version 2
+standby 5 ip 172.16.1.129
+standby 5 priority 150
+standby 5 preempt
+int vlan 60
+standby version 2
+standby 6 ip 172.16.1.145
+standby 6 priority 150
+standby 6 preempt
+int vlan 70
+standvy version 2
+standby 7 ip 
 
 ###########
 ip routing
@@ -283,8 +313,6 @@ interface g1/0/2
 interface g1/0/1
  switchport trunk encapsulation dot1q
  switchport mode trunk
-
-
 
 
 
@@ -414,12 +442,11 @@ interface Vlan99
  standby 99 preempt
 
 interface g1/0/1
- switchport trunk encapsulation dot1q
- switchport mode trunk
+no switchport
+ip add 172.16.1.205 255.255.255.252
 interface g1/0/2
- switchport trunk encapsulation dot1q
- switchport mode trunk
-
+no switchport 
+ip add 172.16.1.209 255.255.255.252
 ip routing
 
 
