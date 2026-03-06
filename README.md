@@ -279,12 +279,14 @@ Non VLAN Ips
 
 172.16.1.201/202 for L3 etherchannel
 
-rack num - 4(rack row) - 6 = f | 4f = last octet of assigned address block 172.17.9.XX
+
+11 - 4(1) - 6 = f = 1 | 4f = last octet of assigned address block interface of your edge router connecting to ISP1 172.17.9.4/30
 router to isp = first usable
-230.149.210 + [8f // 256].296%256 = public IP for ISP1 
+230.149.210.8/28 = public IP address block for ISP1 
 
 address block 172.17.10.XX
 129.126.142 + [8f // 256].296%256 = public IP for ISP2 
+
 
 I abandoned the mesh design because
 
