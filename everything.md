@@ -258,7 +258,7 @@ no switchport
 channel-group 5 mode on
 int po5
 switchport trunk allowed vlan 99
-ip add 172.16.1.201 255.255.255.252
+ip add 172.16.1.180 255.255.255.252
 
 ip routing
 
@@ -318,13 +318,13 @@ standby 99 preempt
 
 interface g1/0/1
 no switchport
-ip add 172.16.1.205 255.255.255.252
+ip add 172.16.1.201 255.255.255.252
 interface g1/0/2
 no switchport 
-ip add 172.16.1.209 255.255.255.252
+ip add 172.16.1.205 255.255.255.252
 ip routing
-ip route 0.0.0.0 0.0.0.0 gigabitEthernet 1/0/2 172.16.1.210
-ip route 0.0.0.0 0.0.0.0 gigabitEthernet 1/0/1 172.16.1.206 10
+ip route 0.0.0.0 0.0.0.0 gigabitEthernet 1/0/2 172.16.1.206
+ip route 0.0.0.0 0.0.0.0 gigabitEthernet 1/0/1 172.16.1.202 10
 
 
 
@@ -390,7 +390,7 @@ int range g1/0/7, g1/0/8
 no switchport
 channel-group 5 mode on 
 int po5
-ip add 172.16.1.202 255.255.255.252
+ip add 172.16.1.181 255.255.255.252
 
 interface Vlan10
  ip address 172.16.1.3 255.255.255.192
@@ -449,19 +449,26 @@ interface Vlan99
 interface g1/0/1
 no switchport
 no shutdown
-ip add 172.16.1.213 255.255.255.252
+ip add 172.16.1.209 255.255.255.252
 interface g1/0/2
 no switchport 
 no shutdown
-ip add 172.16.1.217 255.255.255.252
+ip add 172.16.1.213 255.255.255.252
 ip routing
-ip route 0.0.0.0 0.0.0.0 gigabitEthernet 1/0/2 172.16.1.218
-ip route 0.0.0.0 0.0.0.0 gigabitEthernet 1/0/1 172.16.1.214 10
+ip route 0.0.0.0 0.0.0.0 gigabitEthernet 1/0/2 172.16.1.214
+ip route 0.0.0.0 0.0.0.0 gigabitEthernet 1/0/1 172.16.1.210 10
 
 #c1 g1/0/1 172.16.1.205/30 r1 g0/0/1 172.16.1.206/30
 #c1 g1/0/2 172.16.1.209/30 r2 g0/0/1 172.16.1.210/30
 #c2 g1/0/1 172.16.1.213/30 r2 g0/0/0 172.16.1.214/30
 #c2 g1/0/2 172.16.1.217/30 r1 g0/0/0 172.16.1.218/30
+
+
+#c1 g1/0/1 172.16.1.201/30 r1 g0/0/1 172.16.1.202/30
+#c1 g1/0/2 172.16.1.205/30 r2 g0/0/1 172.16.1.206/30
+#c2 g1/0/1 172.16.1.209/30 r2 g0/0/0 172.16.1.210/30
+#c2 g1/0/2 172.16.1.213/30 r1 g0/0/0 172.16.1.214/30
+
 
 r1
 en
@@ -469,13 +476,13 @@ conf t
 hostname r1
 interface g0/0/0
 no shutdown
-ip add 172.16.1.218 255.255.255.252
+ip add 172.16.1.214 255.255.255.252
 interface g0/0/1
 no shutdown
-ip add 172.16.1.206 255.255.255.252
+ip add 172.16.1.202 255.255.255.252
 ip routing
-ip route 172.16.1.0 255.255.255.0 gigabitEthernet 0/0/1 172.16.1.205
-ip route 172.16.1.0 255.255.255.0 gigabitEthernet 0/0/0 172.16.1.217 10
+ip route 172.16.1.0 255.255.255.0 gigabitEthernet 0/0/1 172.16.1.201
+ip route 172.16.1.0 255.255.255.0 gigabitEthernet 0/0/0 172.16.1.213 10
 
 <!-- ip nat inside source static tcp 172.16.1.196 80 230.149.210.2 80
 ip nat inside source static tcp 172.16.1.196 443 230.149.210.2 443
@@ -488,13 +495,13 @@ conf t
 hostname r2
 interface g0/0/0
 no shutdown
-ip add 172.16.1.214 255.255.255.252
+ip add 172.16.1.210 255.255.255.252
 interface g0/0/1
 no shutdown
-ip add 172.16.1.210 255.255.255.252
+ip add 172.16.1.206 255.255.255.252
 ip routing
-ip route 172.16.1.0 255.255.255.0 gigabitEthernet 0/0/1 172.16.1.209
-ip route 172.16.1.0 255.255.255.0 gigabitEthernet 0/0/0 172.16.1.213 10
+ip route 172.16.1.0 255.255.255.0 gigabitEthernet 0/0/1 172.16.1.205
+ip route 172.16.1.0 255.255.255.0 gigabitEthernet 0/0/0 172.16.1.209 10
 
 
 11 - 4(11) - 6 = f | 4f = last octet of assigned address block 172.17.9.XX
