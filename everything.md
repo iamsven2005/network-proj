@@ -503,3 +503,60 @@ router to isp = first usable
 
 address block 172.17.10.XX
 129.126.142 + [8f // 256].296%256 = public IP for ISP2 
+
+--
+Assuming We use Rack 1A, R1(edge router) uses int(ID007), R2(edge router) uses int(ID009)
+
+R1
+Interface Port: ID007
+PTP IP Block: 172.17.9.4/30
+R1 Int(G0/1/1): 172.17.9.5/30
+Public IP block: 203.149.210.8/29
+
+R2
+Interface Port: ID009
+PTP IP Block: 172.17.10.4/30
+R2 INT(G0/1/1): 172.17.10.5/30
+Public IP block: 129.126.142.8/29
+
+# NAT Stuff for R1
+en
+conf t
+int g0/1/1
+ip address 203.149.210.9 255.255.255.248
+ip address 172.17.9.5 255.255.255.252 secondary
+ip nat outside 
+no shutdown
+exit
+int range g0/0/0 - 1
+ip nat inside
+no shutdown
+exit
+# Static NAT for Webserver only
+ip nat inside source static 172.16.1.196 203.149.210.10
+# PAT for whole Network
+access-list 1 permit 172.16.1.0 0.0.0.255
+ip nat inside source list 1 interface g0/1/1 overload
+ip route 0.0.0.0 0.0.0.0 172.17.9.6
+
+
+
+
+# NAT Stuff for R2
+en 
+conf t
+int g0/1/1
+ip address 129.126.142.9 255.255.255.248
+ip address 172.17.10.5 255.255.255.252 secondary
+ip nat outside
+no shutdown
+int range g0/0/0 - 1
+ip nat inside
+no shutdown
+exit
+# Static NAT for Webserver
+ip nat inside source static 172.16.1.196 129.126.142.10
+# PAT for whole Network
+access-list 1 permit 172.16.1.0 0.0.0.255
+ip nat inside source list 1 interface g0/1/1 overload
+ip route 0.0.0.0 172.17.10.6
