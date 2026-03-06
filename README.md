@@ -454,3 +454,10 @@ Second diagram →
 
 Benefit:
 Second design aligns with Cisco validated designs, exams, and industry norms.
+
+### To run dns
+ python -m http.server 80
+ python new.py
+
+ with admin go to C:\Windows\System32\drivers\etc\hosts
+ C:\Windows\System32\drivers\etc\hosts
