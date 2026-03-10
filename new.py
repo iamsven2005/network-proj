@@ -6,7 +6,7 @@ from dnslib.server import BaseResolver, DNSServer
 
 
 WEB_IP = "10.68.176.110"
-DOMAIN = "stonks.sitct.net."
+DOMAIN = "stonks.sitict.net."
 
 
 class SimpleResolver(BaseResolver):
