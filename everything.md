@@ -323,9 +323,12 @@ interface g1/0/2
 no switchport 
 ip add 172.16.1.205 255.255.255.252
 ip routing
-ip route 0.0.0.0 0.0.0.0 gigabitEthernet 1/0/2 172.16.1.206
-ip route 0.0.0.0 0.0.0.0 gigabitEthernet 1/0/1 172.16.1.202 10
 
+! Default routes to both routers
+ip route 0.0.0.0 0.0.0.0 172.16.1.202
+ip route 0.0.0.0 0.0.0.0 172.16.1.206
+
+end
 
 
 
@@ -455,13 +458,16 @@ no switchport
 no shutdown
 ip add 172.16.1.213 255.255.255.252
 ip routing
-ip route 0.0.0.0 0.0.0.0 gigabitEthernet 1/0/2 172.16.1.214
-ip route 0.0.0.0 0.0.0.0 gigabitEthernet 1/0/1 172.16.1.210 10
 
-#c1 g1/0/1 172.16.1.205/30 r1 g0/0/1 172.16.1.206/30
-#c1 g1/0/2 172.16.1.209/30 r2 g0/0/1 172.16.1.210/30
-#c2 g1/0/1 172.16.1.213/30 r2 g0/0/0 172.16.1.214/30
-#c2 g1/0/2 172.16.1.217/30 r1 g0/0/0 172.16.1.218/30
+! Default routes to both routers
+ip route 0.0.0.0 0.0.0.0 172.16.1.210
+ip route 0.0.0.0 0.0.0.0 172.16.1.214
+
+end
+
+
+
+
 
 
 #c1 g1/0/1 172.16.1.201/30 r1 g0/0/1 172.16.1.202/30
@@ -474,34 +480,69 @@ r1
 en
 conf t
 hostname r1
+
 interface g0/0/0
-no shutdown
-ip add 172.16.1.214 255.255.255.252
+ ip address 172.16.1.214 255.255.255.252
+ ip nat inside
+ no shutdown
+
 interface g0/0/1
-no shutdown
-ip add 172.16.1.202 255.255.255.252
-ip routing
-ip route 172.16.1.0 255.255.255.0 gigabitEthernet 0/0/1 172.16.1.201
-ip route 172.16.1.0 255.255.255.0 gigabitEthernet 0/0/0 172.16.1.213 10
+ ip address 172.16.1.202 255.255.255.252
+ ip nat inside
+ no shutdown
 
-<!-- ip nat inside source static tcp 172.16.1.196 80 230.149.210.2 80
-ip nat inside source static tcp 172.16.1.196 443 230.149.210.2 443
+interface g0/1/0
+ ip address 172.17.9.5 255.255.255.252
+ ip nat outside
+ no shutdown
 
-ip route 0.0.0.0 0.0.0.0 230.149.210.1 -->
+! Static NAT for server
+ip nat inside source static 172.16.1.196 172.17.9.5
+
+! Route back to server subnet via both core switches
+ip route 172.16.1.192 255.255.255.248 172.16.1.201
+ip route 172.16.1.192 255.255.255.248 172.16.1.213
+
+! Default route to ISP 1
+ip route 0.0.0.0 0.0.0.0 172.17.9.6
+
+end
 
 r2
 en
 conf t
 hostname r2
+
 interface g0/0/0
-no shutdown
-ip add 172.16.1.210 255.255.255.252
+ ip address 172.16.1.210 255.255.255.252
+ ip nat inside
+ no shutdown
+
 interface g0/0/1
-no shutdown
-ip add 172.16.1.206 255.255.255.252
-ip routing
-ip route 172.16.1.0 255.255.255.0 gigabitEthernet 0/0/1 172.16.1.205
-ip route 172.16.1.0 255.255.255.0 gigabitEthernet 0/0/0 172.16.1.209 10
+ ip address 172.16.1.206 255.255.255.252
+ ip nat inside
+ no shutdown
+
+interface g0/1/0
+ ip address 172.17.10.5 255.255.255.252
+ ip nat outside
+ no shutdown
+
+! Static NAT for server
+ip nat inside source static 172.16.1.196 172.17.10.5
+
+! Route back to server subnet via both core switches
+ip route 172.16.1.192 255.255.255.248 172.16.1.205
+ip route 172.16.1.192 255.255.255.248 172.16.1.209
+
+! Default route to ISP 2
+ip route 0.0.0.0 0.0.0.0 172.17.10.6
+
+end
+
+
+
+
 
 
 11 - 4(11) - 6 = f | 4f = last octet of assigned address block 172.17.9.XX
@@ -511,8 +552,7 @@ router to isp = first usable
 address block 172.17.10.XX
 129.126.142 + [8f // 256].296%256 = public IP for ISP2 
 
---
-Assuming We use Rack 1A, R1(edge router) uses int(ID007), R2(edge router) uses int(ID009)
+_________________________________________________________
 
 
 
@@ -533,144 +573,69 @@ Assuming We use Rack 1A, R1(edge router) uses int(ID007), R2(edge router) uses i
 
 
 
+
+
+
+r1
+en
 conf t
-hostname C1
-ip routing
-
-interface g1/0/1
- no switchport
- ip address 172.16.1.205 255.255.255.252
- no shutdown
-
-interface g1/0/2
- no switchport
- ip address 172.16.1.209 255.255.255.252
- no shutdown
-
-! Equal-cost default routes to both routers
-ip route 0.0.0.0 0.0.0.0 172.16.1.206
-ip route 0.0.0.0 0.0.0.0 172.16.1.210
-
-end
-
-
-
-
-
-
-
-conf t
-hostname C2
-ip routing
-
-interface g1/0/1
- no switchport
- ip address 172.16.1.213 255.255.255.252
- no shutdown
-
-interface g1/0/2
- no switchport
- ip address 172.16.1.217 255.255.255.252
- no shutdown
-
-! Equal-cost default routes to both routers
-ip route 0.0.0.0 0.0.0.0 172.16.1.214
-ip route 0.0.0.0 0.0.0.0 172.16.1.218
-
-end
-
-
-
-
-
-
-
-
-
-conf t
-hostname R1
-
-interface g0/0/1
- ip address 172.16.1.206 255.255.255.252
- ip nat inside
- no shutdown
-
-interface g0/0/0
- ip address 172.16.1.218 255.255.255.252
- ip nat inside
- no shutdown
-
-interface g0/1/0
- ip address 172.17.9.5 255.255.255.252
- ip nat outside
- no shutdown
-
-! Routes to internal server subnet through both core switches
-ip route 172.16.1.192 255.255.255.248 172.16.1.205
-ip route 172.16.1.192 255.255.255.248 172.16.1.217
-
-! Default route to ISP
-ip route 0.0.0.0 0.0.0.0 172.17.9.6
-
-! Outbound NAT/PAT for inside hosts
-access-list 1 permit 172.16.1.192 0.0.0.7
-ip nat inside source list 1 interface g0/1/0 overload
-
-! Publish web server to the internet on R1 public IP
-ip nat inside source static tcp 172.16.1.196 80 interface g0/1/0 80
-ip nat inside source static tcp 172.16.1.196 443 interface g0/1/0 443
-
-! Optional if DNS should also be reachable from internet
-ip nat inside source static udp 172.16.1.196 53 interface g0/1/0 53
-ip nat inside source static tcp 172.16.1.196 53 interface g0/1/0 53
-
-end
-
-
-
-
-
-
-
-
-
-
-
-conf t
-hostname R2
-
-interface g0/0/1
- ip address 172.16.1.210 255.255.255.252
- ip nat inside
- no shutdown
+hostname r1
 
 interface g0/0/0
  ip address 172.16.1.214 255.255.255.252
  ip nat inside
  no shutdown
 
+interface g0/0/1
+ ip address 172.16.1.202 255.255.255.252
+ ip nat inside
+ no shutdown
+
 interface g0/1/0
- ip address 172.17.10.5 255.255.255.252
+ ip address 172.17.9.9 255.255.255.252
  ip nat outside
  no shutdown
 
-! Routes to internal server subnet through both core switches
-ip route 172.16.1.192 255.255.255.248 172.16.1.209
+! Static NAT for server
+ip nat inside source static 172.16.1.196 172.17.9.9
+
+! Route back to server subnet via both core switches
+ip route 172.16.1.192 255.255.255.248 172.16.1.201
 ip route 172.16.1.192 255.255.255.248 172.16.1.213
 
-! Default route to ISP
-ip route 0.0.0.0 0.0.0.0 172.17.10.6
+! Default route to ISP 1
+ip route 0.0.0.0 0.0.0.0 172.17.9.10
 
-! Outbound NAT/PAT for inside hosts
-access-list 1 permit 172.16.1.192 0.0.0.7
-ip nat inside source list 1 interface g0/1/0 overload
+end
 
-! Publish web server to the internet on R2 public IP
-ip nat inside source static tcp 172.16.1.196 80 interface g0/1/0 80
-ip nat inside source static tcp 172.16.1.196 443 interface g0/1/0 443
+r2
+en
+conf t
+hostname r2
 
-! Optional if DNS should also be reachable from internet
-ip nat inside source static udp 172.16.1.196 53 interface g0/1/0 53
-ip nat inside source static tcp 172.16.1.196 53 interface g0/1/0 53
+interface g0/0/0
+ ip address 172.16.1.210 255.255.255.252
+ ip nat inside
+ no shutdown
+
+interface g0/0/1
+ ip address 172.16.1.206 255.255.255.252
+ ip nat inside
+ no shutdown
+
+interface g0/1/0
+ ip address 172.17.10.9 255.255.255.252
+ ip nat outside
+ no shutdown
+
+! Static NAT for server
+ip nat inside source static 172.16.1.196 172.17.10.9
+
+! Route back to server subnet via both core switches
+ip route 172.16.1.192 255.255.255.248 172.16.1.205
+ip route 172.16.1.192 255.255.255.248 172.16.1.209
+
+! Default route to ISP 2
+ip route 0.0.0.0 0.0.0.0 172.17.10.10
 
 end
