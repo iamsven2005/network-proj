@@ -13,34 +13,34 @@ vlan 60
 name HR
 spanning-tree mode rapid-pvst
 spanning-tree vlan 20,40,60 priority 61440
-interface g1/0/17
+interface g1/0/19
 switchport mode access
 swithcport access vlan 10
 spanning-tree portfast
 spanning-tree bpduguard enable
-interface g1/0/13
+interface g1/0/17
 switchport mode access
 switchport access vlan 40
 spanning-tree portfast
 spanning-tree bpduguard enable
-interface g1/0/14
+interface g1/0/18
 switchport mode access
 switchport access vlan 60
 spanning-tree portfast
 spanning-tree bpduguard enable
-interface range g1/0/1-12
+interface range g1/0/5-16
 switchport mode access
 switchport access vlan 20
 spanning-tree portfast
 spanning-tree bpduguard enable
-int range g1/0/15, g1/0/20
+int range g1/0/1-2
 channel-group 1 mode desirable
 no shut
 int po1 
 switchport mode trunk
 switchport trunk allowed vlan 20,40,60
 spanning-tree link-type point-to-point
-int range g1/0/16, g1/0/21
+int range g1/0/3-4
 channel-group 2 mode desirable
 no shut
 int po2 
@@ -63,29 +63,29 @@ vlan 60
 name HR
 spanning-tree mode rapid-pvst
 spanning-tree vlan 30,40,60 priority 61440
-interface g1/0/22
+interface g1/0/15
 switchport mode access
 switchport access vlan 40
 spanning-tree portfast
 spanning-tree bpduguard enable
-interface g1/0/21
+interface g1/0/16
 switchport mode access
 switchport access vlan 60
 spanning-tree portfast
 spanning-tree bpduguard enable
-interface range g1/0/1-10
+interface range g1/0/5-14
 switchport mode access
 switchport access vlan 30
 spanning-tree portfast
 spanning-tree bpduguard enable
-int range g1/0/11, g1/0/16
+int range g1/0/1-2
 channel-group 1 mode desirable
 no shut
 int po1 
 switchport mode trunk
 switchport trunk allowed vlan 30,40,60
 spanning-tree link-type point-to-point
-int range g1/0/12, g1/0/17
+int range g1/0/3-4
 channel-group 2 mode desirable
 no shut
 int po2 
@@ -110,34 +110,34 @@ vlan 80
 name Servers
 spanning-tree mode rapid-pvst
 spanning-tree vlan 40,50,60,80 priority 61440
-interface g1/0/4
+interface g1/0/8
 switchport mode access
 switchport access vlan 60
 spanning-tree portfast
 spanning-tree bpduguard enable
-interface range g1/0/5-7
+interface range g1/0/9-11
 switchport mode access
 switchport access vlan 40
 spanning-tree portfast
 spanning-tree bpduguard enable
-interface range g1/0/8-10, g1/0/13-14
+interface range g1/0/12-16
 switchport mode access
 switchport access vlan 50
 spanning-tree portfast
 spanning-tree bpduguard enable
-interface range g1/0/1-3
+interface range g1/0/5-7
 switchport mode access
 switchport access vlan 80
 spanning-tree portfast
 spanning-tree bpduguard enable
-int range g1/0/11, g1/0/16
+int range g1/0/1-2
 channel-group 1 mode desirable
 no shut
 int po1 
 switchport mode trunk
 switchport trunk allowed vlan 40,50,60,80
 spanning-tree link-type point-to-point
-int range g1/0/12, g1/0/17
+int range g1/0/3-4
 channel-group 2 mode desirable
 no shut
 int po2 
@@ -163,34 +163,34 @@ vlan 70
 name Managers
 spanning-tree mode rapid-pvst
 spanning-tree vlan 40,60,70 priority 61440
-interface g1/0/17
+interface g1/0/12
 switchport mode access
 spanning-tree portfast
 spanning-tree bpduguard enable
 swithcport access vlan 10
-interface g1/0/3
+interface g1/0/5
 switchport mode access
 switchport access vlan 40
 spanning-tree portfast
 spanning-tree bpduguard enable
-interface range g1/0/8-9
+interface range g1/0/10-11
 switchport mode access
 switchport access vlan 60
 spanning-tree portfast
 spanning-tree bpduguard enable
-interface range g1/0/4-7
+interface range g1/0/6-9
 switchport mode access
 switchport access vlan 70
 spanning-tree portfast
 spanning-tree bpduguard enable
-int range g1/0/1, g1/0/13
+int range g1/0/1-2
 channel-group 1 mode desirable
 no shut
 int po1 
 switchport mode trunk
 switchport trunk allowed vlan 40,60,70
 spanning-tree link-type point-to-point
-int range g1/0/2, g1/0/14
+int range g1/0/3-4
 channel-group 2 mode desirable
 no shut
 int po2 
@@ -224,28 +224,28 @@ vlan 99
 name Switch_MGM
 spanning-tree mode rapid-pvst
 spanning-tree vlan 1,10,20,30,40,50,60,70,80,99 root primary
-int range g1/0/6, g1/0/11
+int range g1/0/5-6
 channel-group 1 mode auto
 spanning-tree guard root
 int po1
 switchport trunk allowed vlan 20,40,60
 spanning-tree link-type point-to-point
 no shut
-int range g1/0/5, g1/0/10
+int range g1/0/7-8
 channel-group 2 mode auto
 spanning-tree guard root
 int po2
 switchport trunk allowed vlan 30,40,60
 spanning-tree link-type point-to-point
 no shut
-int range g1/0/3, g1/0/9
+int range g1/0/9-10
 channel-group 3 mode auto
 spanning-tree guard root
 int po3
 switchport trunk allowed vlan 40,50,60,80
 spanning-tree link-type point-to-point
 no shut
-int range g1/0/4, g1/0/8
+int range g1/0/11-12
 channel-group 4 mode auto
 spanning-tree guard root
 int po4
@@ -253,7 +253,7 @@ switchport trunk allowed vlan 40,60,70
 spanning-tree link-type point-to-point
 spanning-tree guard root
 no shut
-int range g1/0/7, g1/0/12
+int range g1/0/3-4
 no switchport
 channel-group 5 mode on
 int po5
@@ -365,31 +365,31 @@ vlan 99
 name Switch_MGM
 spanning-tree mode rapid-pvst
 spanning-tree vlan 1,10,20,30,40,50,60,70,80,99 root secondary
-int range g1/0/5, g1/0/10
+int range g1/0/5-6
 channel-group 1 mode auto
 int po1
 switchport trunk allowed vlan 20,40,60
 spanning-tree link-type point-to-point
 no shut
-int range g1/0/4, g1/0/11
+int range g1/0/7-8
 channel-group 2 mode auto
 int po2
 switchport trunk allowed vlan 30,40,60
 spanning-tree link-type point-to-point
 no shut
-int range g1/0/6, g1/0/12
+int range g1/0/9-10
 channel-group 3 mode auto
 int po3
 switchport trunk allowed vlan 40,50,60,80
 spanning-tree link-type point-to-point
 no shut
-int range g1/0/3, g1/0/9
+int range g1/0/11-12
 channel-group 4 mode auto
 int po4
 switchport trunk allowed vlan 40,60,70
 spanning-tree link-type point-to-point
 no shut
-int range g1/0/7, g1/0/8
+int range g1/0/3-4
 no switchport
 channel-group 5 mode on 
 int po5
