@@ -148,7 +148,6 @@ spanning-tree link-type point-to-point
 
 
 Access Switch 4 
-wheres my vlan 10
 
 en
 conf t
@@ -542,5 +541,50 @@ end
 
 
 
+
+
+run these ip nat mappings instead
+
+ip nat inside source static 172.16.1.196 203.149.210.11
+ip nat inside source static 172.16.1.196 129.126.142.11
+
+im gna take a leap here and say that host dns on .11
+which should point to the web on lets say .10
+means that we would also need
+
+ip nat inside source static 172.16.1.197 203.149.210.10
+ip nat inside source static 172.16.1.197 129.126.142.10
+
+assuming that the web server runs on .197 and not on the same machine as the dns
+
+now the qn is why ys is hitting our isp outbound interface and dying there 
+(thats with nat to translate .11,if its not set to translate it just bounces up and down .5 and .6)
+
+should be unrelated to the dns but once it gets unfucked
+dig @ns1.sitict.net stonks.sit.ict.net
+should point at .11
+
+imma take a shot at bind9 and this crazy ramble
+
+if this works im gna fuggin nut and maybe hook r1 to r2 with ospf
+
+
+
+
+
+
+
+
+
+
+
 ping 35.212.236.94 from dns to cfm outside connectivity
+ping 8.8.8.8 dingdingding
+ping across same vlan
+ping to diff vlan
+
+sh spanning-tree summary
+sh etherchannel summary
+
+
 

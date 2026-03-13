@@ -148,7 +148,6 @@ spanning-tree link-type point-to-point
 
 
 Access Switch 4 
-wheres my vlan 10
 
 en
 conf t
@@ -543,4 +542,11 @@ end
 
 
 ping 35.212.236.94 from dns to cfm outside connectivity
+ping 8.8.8.8
+ping across same vlan
+ping to diff vlan
+
+sh spanning-tree summary
+sh etherchannel summary
+
 
