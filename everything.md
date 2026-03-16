@@ -496,16 +496,20 @@ interface g0/1/0
  no shutdown
 
 ! Static NAT for server
-ip nat inside source static 172.16.1.196 172.17.9.5
+//old ip nat inside source static 172.16.1.196 172.17.9.5
+ip nat inside source static 172.16.1.196 203.149.210.10
 
-! Route back to server subnet via both core switches
-ip route 172.16.1.192 255.255.255.248 172.16.1.201
-ip route 172.16.1.192 255.255.255.248 172.16.1.213
+! Route back to entire 172.16.1.0/24 via both core switches
+ip route 172.16.1.0 255.255.255.0 172.16.1.201
+ip route 172.16.1.0 255.255.255.0 172.16.1.213
 
 ! Default route to ISP 1
 ip route 0.0.0.0 0.0.0.0 172.17.9.6
 
 end
+
+
+
 
 r2
 en
@@ -528,11 +532,12 @@ interface g0/1/0
  no shutdown
 
 ! Static NAT for server
-ip nat inside source static 172.16.1.196 172.17.10.5
+//old ip nat inside source static 172.16.1.196 172.17.10.5
+ip nat inside source static 172.16.1.196 129.126.142.10
 
-! Route back to server subnet via both core switches
-ip route 172.16.1.192 255.255.255.248 172.16.1.205
-ip route 172.16.1.192 255.255.255.248 172.16.1.209
+! Route back to both core switches
+ip route 172.16.1.0 255.255.255.0  172.16.1.205
+ip route 172.16.1.0 255.255.255.0  172.16.1.209
 
 ! Default route to ISP 2
 ip route 0.0.0.0 0.0.0.0 172.17.10.6
@@ -561,12 +566,16 @@ now the qn is why ys is hitting our isp outbound interface and dying there
 (thats with nat to translate .11,if its not set to translate it just bounces up and down .5 and .6)
 
 should be unrelated to the dns but once it gets unfucked
-dig @ns1.sitict.net stonks.sit.ict.net
+dig @ns1.sitict.net stonks.sitict.net
 should point at .11
 
 imma take a shot at bind9 and this crazy ramble
 
 if this works im gna fuggin nut and maybe hook r1 to r2 with ospf
+
+
+bind 9 works js rmb to set static ip when plugging in
+idk if need to allow more networks in
 
 
 
