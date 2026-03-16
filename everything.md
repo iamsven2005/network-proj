@@ -496,7 +496,6 @@ interface g0/1/0
  no shutdown
 
 ! Static NAT for server
-//old ip nat inside source static 172.16.1.196 172.17.9.5
 ip nat inside source static 172.16.1.196 203.149.210.10
 
 ! Route back to entire 172.16.1.0/24 via both core switches
@@ -532,7 +531,6 @@ interface g0/1/0
  no shutdown
 
 ! Static NAT for server
-//old ip nat inside source static 172.16.1.196 172.17.10.5
 ip nat inside source static 172.16.1.196 129.126.142.10
 
 ! Route back to both core switches
