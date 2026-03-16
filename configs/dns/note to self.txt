@@ -1,0 +1,1 @@
+need to config /etc/resolv.conf so that name server points to its own private ip

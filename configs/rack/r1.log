@@ -1,0 +1,173 @@
+
+r1#terminal length 0
+r1#show running-config
+Building configuration...
+
+Current configuration : 4007 bytes
+!
+! Last configuration change at 06:36:19 UTC Mon Mar 16 2026
+!
+version 17.12
+service timestamps debug datetime msec
+service timestamps log datetime msec
+platform qfp utilization monitor load 80
+platform punt-keepalive disable-kernel-core
+!
+hostname r1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+login on-success log
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+vtp version 1
+multilink bundle-name authenticated
+!
+pae
+!
+!
+crypto pki trustpoint TP-self-signed-1540038743
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-1540038743
+ revocation-check none
+ rsakeypair TP-self-signed-1540038743
+ hash sha256
+!
+!
+crypto pki certificate chain TP-self-signed-1540038743
+ certificate self-signed 01
+  30820330 30820218 A0030201 02020101 300D0609 2A864886 F70D0101 0B050030 
+  31312F30 2D060355 04030C26 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 31353430 30333837 3433301E 170D3236 30333133 31303131 
+  34345A17 0D333630 33313231 30313134 345A3031 312F302D 06035504 030C2649 
+  4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D31 35343030 
+  33383734 33308201 22300D06 092A8648 86F70D01 01010500 0382010F 00308201 
+  0A028201 0100BC4D 5589CF01 F9FD7C6F CD2B6D5E 2D48C48D 4757F690 9BFC207B 
+  1E5E89DE D39599BE 4D855FA7 DC44A4BF F671F08A CEC14EEC AB5124AD B9049FAF 
+  140EF024 7A2C1FE4 60335884 43971E08 8906B12A E91F7E4B 91B81713 042C0FE2 
+  AD21B9F1 A8006022 E4E90A51 2D813513 2519AD13 8C9E4663 65D35A18 C53C2C0F 
+  CB3FBE5B B3EEBD6E A0FE633D 274213A3 861FC922 8E3BC46C 15EFBC82 E2D6B700 
+  032D2813 6AB8F002 23410C34 6C38D6C9 4E3E102A 92732DDD 1C56E8E5 3502538F 
+  98C6CDCD 5E40DFAE 49566A3F CCD9817C 1589535F A2FA5392 E9A7ADD7 C9AD086E 
+  06F295CC FCFE684F 951CD6E6 2B39A15C D710C51D 38F1A3DF 7C2829A7 B4142728 
+  A7FFC395 39AD0203 010001A3 53305130 1D060355 1D0E0416 0414CA03 3490DE93 
+  51E1D3A0 74EAE2BC 7F1F5A53 6D25301F 0603551D 23041830 168014CA 033490DE 
+  9351E1D3 A074EAE2 BC7F1F5A 536D2530 0F060355 1D130101 FF040530 030101FF 
+  300D0609 2A864886 F70D0101 0B050003 82010100 B50AE9E6 2096F9CD EA19E39C 
+  274C5E72 692F26DF 4CF45769 00F93525 342597F5 6C979002 C7369DAD 5FEFBBF4 
+  13C8F1E9 17B23BB3 AFEEB22E 640C827F EFEC5E82 1ED116DD A9E2C546 961E7B51 
+  17074A49 5378F8D9 78A8B5AB F1806060 A28F31D0 089EFA20 8DA7797F D4D8CFA1 
+  85DB2F27 A0AA9AFF 189B8F3E 282B2E7E 8D31912C 1C9D6339 6C03CE83 62C3C663 
+  E83F5617 483DFA19 45C280BE 5BED8C2A 8623E222 C6A40524 1B9ACCA3 C1F4F676 
+  28662871 0FB3C906 C90B9323 D2E33D2C F1F5DCA0 BAA544B0 57F1F73C 28146972 
+  8BF00634 8C463979 0B361D72 6CCB444B 9C255FBB 51162A3E 6E10A180 4E5BAE41 
+  19AD3C89 AB336799 53DB451E 07C2F12F A0422CD0
+  	quit
+!
+!
+diagnostic bootup level minimal
+!
+license udi pid C8200L-1N-4T sn FGL2803L1QD
+memory free low-watermark processor 61453
+!
+spanning-tree extend system-id
+!
+!
+!
+redundancy
+ mode none
+!
+!
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0/0
+ ip address 172.16.1.214 255.255.255.252
+ ip nat inside
+ negotiation auto
+!
+interface GigabitEthernet0/0/1
+ ip address 172.16.1.202 255.255.255.252
+ ip nat inside
+ negotiation auto
+!
+interface GigabitEthernet0/0/2
+ no ip address
+ negotiation auto
+!
+interface GigabitEthernet0/0/3
+ no ip address
+ negotiation auto
+!
+interface GigabitEthernet0/1/0
+ ip address 172.17.9.5 255.255.255.252
+ ip nat outside
+ negotiation auto
+!
+interface GigabitEthernet0/1/1
+ no ip address
+ negotiation auto
+!
+ip forward-protocol nd
+ip http server
+ip http authentication local
+ip http secure-server
+!
+ip nat inside source static 172.16.1.196 203.149.210.10
+ip nat inside source list 1 interface GigabitEthernet0/1/0 overload
+ip route 0.0.0.0 0.0.0.0 172.17.9.6
+ip route 172.16.1.0 255.255.255.0 172.16.1.201
+ip route 172.16.1.0 255.255.255.0 172.16.1.213
+ip ssh bulk-mode 131072
+!
+!
+ip access-list standard 1
+ 10 permit 172.16.1.0 0.0.0.255
+ 20 permit 172.16.1.192 0.0.0.7
+!
+!
+!
+control-plane
+!
+!
+line con 0
+ stopbits 1
+line aux 0
+line vty 0 4
+ login
+ transport input ssh
+line vty 5 14
+ login
+ transport input ssh
+!
+!
+!
+!
+!
+!
+!
+end
+
+r1#
