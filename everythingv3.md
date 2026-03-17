@@ -50,6 +50,7 @@ spanning-tree link-type point-to-point
 end
 
 
+
 Access Switch 2
 
 en
@@ -148,7 +149,6 @@ end
 
 
 Access Switch 4 
-wheres my vlan 10
 
 en
 conf t
@@ -198,6 +198,7 @@ switchport mode trunk
 switchport trunk allowed vlan 40,60,70
 spanning-tree link-type point-to-point
 end
+
 
 CS1
 
@@ -255,8 +256,8 @@ int range g1/0/7, g1/0/12
 no switchport
 channel-group 5 mode on
 int po5
-switchport trunk allowed vlan 99
-ip add 172.16.1.180 255.255.255.252
+no switchport
+ip add 172.16.1.201 255.255.255.252
 
 ip routing
 
@@ -308,21 +309,18 @@ standby 80 ip 172.16.1.193
 standby 80 priority 110
 standby 80 preempt
 
-interface Vlan99
-ip address 172.16.1.178 255.255.255.240
-standby 99 ip 172.16.1.177
-standby 99 priority 110
-standby 99 preempt
-
 interface g1/0/1
 no switchport
-ip add 172.16.1.182 255.255.255.252
+ip add 172.16.1.177 255.255.255.252
 interface g1/0/2
 no switchport 
-ip add 172.16.1.184 255.255.255.252
+ip add 172.16.1.181 255.255.255.252
 ip routing
-ip route 0.0.0.0 0.0.0.0 gigabitEthernet 1/0/2 172.16.1.185
-ip route 0.0.0.0 0.0.0.0 gigabitEthernet 1/0/1 172.16.1.183 10
+
+! Default routes to both routers
+ip route 0.0.0.0 0.0.0.0 172.16.1.178
+ip route 0.0.0.0 0.0.0.0 172.16.1.182
+
 end
 
 
@@ -356,10 +354,8 @@ vlan 70
 name Managers
 vlan 80
 name Servers
-vlan 99
-name Switch_MGM
 spanning-tree mode rapid-pvst
-spanning-tree vlan 1,10,20,30,40,50,60,70,80,99 root secondary
+spanning-tree vlan 1,10,20,30,40,50,60,70,80 root secondary
 int range g1/0/5, g1/0/10
 channel-group 1 mode auto
 int po1
@@ -388,7 +384,7 @@ int range g1/0/7, g1/0/8
 no switchport
 channel-group 5 mode on 
 int po5
-ip add 172.16.1.181 255.255.255.252
+ip add 172.16.1.202 255.255.255.252
 
 interface Vlan10
  ip address 172.16.1.3 255.255.255.192
@@ -438,119 +434,98 @@ interface Vlan80
  standby 80 priority 90
  standby 80 preempt
 
-interface Vlan99
- ip address 172.16.1.179 255.255.255.240
- standby 99 ip 172.16.1.177
- standby 99 priority 90
- standby 99 preempt
 
 interface g1/0/1
 no switchport
 no shutdown
-ip add 172.16.1.186 255.255.255.252
+ip add 172.16.1.185 255.255.255.252
 interface g1/0/2
 no switchport 
 no shutdown
-ip add 172.16.1.188 255.255.255.252
+ip add 172.16.1.189 255.255.255.252
 ip routing
-ip route 0.0.0.0 0.0.0.0 gigabitEthernet 1/0/2 172.16.1.189
-ip route 0.0.0.0 0.0.0.0 gigabitEthernet 1/0/1 172.16.1.187 10
+
+! Default routes to both routers
+ip route 0.0.0.0 0.0.0.0 172.16.1.186
+ip route 0.0.0.0 0.0.0.0 172.16.1.190
+
 end
 
-#c1 g1/0/1 172.16.1.184/30 r1 g0/0/1 172.16.1.185/30
-#c1 g1/0/2 172.16.1.186/30 r2 g0/0/1 172.16.1.187/30
-#c2 g1/0/1 172.16.1.188/30 r2 g0/0/0 172.16.1.189/30
-#c2 g1/0/2 172.16.1.217/30 r1 g0/0/0 172.16.1.218/30
 
 
-#c1 g1/0/1 172.16.1.182/30 r1 g0/0/1 172.16.1.183/30
-#c1 g1/0/2 172.16.1.184/30 r2 g0/0/1 172.16.1.185/30
-#c2 g1/0/1 172.16.1.186/30 r2 g0/0/0 172.16.1.187/30
-#c2 g1/0/2 172.16.1.188/30 r1 g0/0/0 172.16.1.189/30
+
+
+---obselete 
+#c1 g1/0/1 172.16.1.201/30 r1 g0/0/1 172.16.1.202/30
+#c1 g1/0/2 172.16.1.205/30 r2 g0/0/1 172.16.1.206/30
+#c2 g1/0/1 172.16.1.209/30 r2 g0/0/0 172.16.1.210/30
+#c2 g1/0/2 172.16.1.213/30 r1 g0/0/0 172.16.1.214/30
 
 
 r1
 en
 conf t
 hostname r1
+
 interface g0/0/0
-no shutdown
-ip add 172.16.1.189 255.255.255.252
+ ip address 172.16.1.190 255.255.255.252
+ ip nat inside
+ no shutdown
+
 interface g0/0/1
-no shutdown
-ip add 172.16.1.183 255.255.255.252
-ip routing
-ip route 172.16.1.0 255.255.255.0 gigabitEthernet 0/0/1 172.16.1.182
-ip route 172.16.1.0 255.255.255.0 gigabitEthernet 0/0/0 172.16.1.188 10
+ ip address 172.16.1.178 255.255.255.252
+ ip nat inside
+ no shutdown
+
+interface g0/1/0
+ ip address 172.17.9.5 255.255.255.252
+ ip nat outside
+ no shutdown
+
+! Static NAT for server
+ip nat inside source static 172.16.1.196 203.149.210.10
+
+! Route back to entire 172.16.1.0/24 via both core switches
+ip route 172.16.1.0 255.255.255.0 172.16.1.177
+ip route 172.16.1.0 255.255.255.0 172.16.1.189
+
+! Default route to ISP 1
+ip route 0.0.0.0 0.0.0.0 172.17.9.6
+
 end
 
-<!-- ip nat inside source static tcp 172.16.1.196 80 230.149.210.2 80
-ip nat inside source static tcp 172.16.1.196 443 230.149.210.2 443
 
-ip route 0.0.0.0 0.0.0.0 230.149.210.1 -->
+
 
 r2
 en
 conf t
 hostname r2
+
 interface g0/0/0
-no shutdown
-ip add 172.16.1.187 255.255.255.252
-interface g0/0/1
-no shutdown
-ip add 172.16.1.185 255.255.255.252
-ip routing
-ip route 172.16.1.0 255.255.255.0 gigabitEthernet 0/0/1 172.16.1.184
-ip route 172.16.1.0 255.255.255.0 gigabitEthernet 0/0/0 172.16.1.186 10
-end
-
-
-11 - 4(11) - 6 = f | 4f = last octet of assigned address block 172.17.9.XX
-router to isp = first usable
-230.149.210 + [8f // 256].296%256 = public IP for ISP1 
-
-address block 172.17.10.XX
-129.126.142 + [8f // 256].296%256 = public IP for ISP2 
-
---
-Assuming We use Rack 1A, R1(edge router) uses int(ID007), R2(edge router) uses int(ID009)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-conf t
-hostname C1
-ip routing
-
-interface g1/0/1
- no switchport
- ip address 172.16.1.184 255.255.255.252
- no shutdown
-
-interface g1/0/2
- no switchport
  ip address 172.16.1.186 255.255.255.252
+ ip nat inside
  no shutdown
 
-! Equal-cost default routes to both routers
-ip route 0.0.0.0 0.0.0.0 172.16.1.185
-ip route 0.0.0.0 0.0.0.0 172.16.1.187
+interface g0/0/1
+ ip address 172.16.1.182 255.255.255.252
+ ip nat inside
+ no shutdown
+
+interface g0/1/0
+ ip address 172.17.10.5 255.255.255.252
+ ip nat outside
+ no shutdown
+
+! Static NAT for server
+ip nat inside source static 172.16.1.196 129.126.142.10
+
+! Route back to both core switches
+ip route 172.16.1.0 255.255.255.0  172.16.1.185
+ip route 172.16.1.0 255.255.255.0  172.16.1.181
+
+! Default route to ISP 2
+ip route 0.0.0.0 0.0.0.0 172.17.10.6
 
 end
 
@@ -560,28 +535,56 @@ end
 
 
 
-conf t
-hostname C2
-ip routing
-
-interface g1/0/1
- no switchport
- ip address 172.16.1.188 255.255.255.252
- no shutdown
-
-interface g1/0/2
- no switchport
- ip address 172.16.1.217 255.255.255.252
- no shutdown
-
-! Equal-cost default routes to both routers
-ip route 0.0.0.0 0.0.0.0 172.16.1.189
-ip route 0.0.0.0 0.0.0.0 172.16.1.218
-
-end
 
 
 
+
+run these ip nat mappings instead
+
+ip nat inside source static 172.16.1.196 203.149.210.11
+ip nat inside source static 172.16.1.196 129.126.142.11
+
+im gna take a leap here and say that host dns on .11
+which should point to the web on lets say .10
+means that we would also need
+
+ip nat inside source static 172.16.1.197 203.149.210.10
+ip nat inside source static 172.16.1.197 129.126.142.10
+
+assuming that the web server runs on .197 and not on the same machine as the dns
+
+now the qn is why ys is hitting our isp outbound interface and dying there 
+(thats with nat to translate .11,if its not set to translate it just bounces up and down .5 and .6)
+
+should be unrelated to the dns but once it gets unfucked
+dig @ns1.sitict.net stonks.sitict.net
+should point at .11
+
+imma take a shot at bind9 and this crazy ramble
+
+if this works im gna fuggin nut and maybe hook r1 to r2 with ospf
+
+
+bind 9 works js rmb to set static ip when plugging in
+idk if need to allow more networks in
+
+
+
+
+
+
+
+
+
+
+
+ping 35.212.236.94 from dns to cfm outside connectivity
+ping 8.8.8.8 dingdingding
+ping across same vlan
+ping to diff vlan
+
+sh spanning-tree summary
+sh etherchannel summary
 
 
 

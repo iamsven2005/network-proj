@@ -15,7 +15,7 @@ spanning-tree mode rapid-pvst
 spanning-tree vlan 20,40,60 priority 61440
 interface g1/0/17
 switchport mode access
-swithcport access vlan 10
+switchport access vlan 10
 spanning-tree portfast
 spanning-tree bpduguard enable
 interface g1/0/13
@@ -166,7 +166,7 @@ interface g1/0/17
 switchport mode access
 spanning-tree portfast
 spanning-tree bpduguard enable
-swithcport access vlan 10
+switchport access vlan 10
 interface g1/0/3
 switchport mode access
 switchport access vlan 40
