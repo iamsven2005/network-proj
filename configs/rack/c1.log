@@ -151,7 +151,7 @@ interface Port-channel4
 !
 interface Port-channel5
  no switchport
- no ip address
+ ip address 172.16.1.182 255.255.255.252
 !
 interface GigabitEthernet0/0
  vrf forwarding Mgmt-vrf

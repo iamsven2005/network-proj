@@ -257,7 +257,7 @@ no switchport
 channel-group 5 mode on
 int po5
 switchport trunk allowed vlan 99
-ip add 172.16.1.180 255.255.255.252
+ip add 172.16.1.182 255.255.255.252
 
 ip routing
 
