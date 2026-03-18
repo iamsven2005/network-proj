@@ -1,13 +1,13 @@
-Access Switch 1 
+Access Switch 1
 
 en
 conf t
 hostname S1
-vlan 10 
+vlan 10
 name Meeting_RMs
 vlan 20
 name CS
-vlan 40 
+vlan 40
 name Networking
 vlan 60
 name HR
@@ -36,20 +36,18 @@ spanning-tree bpduguard enable
 int range g1/0/15, g1/0/20
 channel-group 1 mode desirable
 no shut
-int po1 
+int po1
 switchport mode trunk
-switchport trunk allowed vlan 20,40,60
+switchport trunk allowed vlan 10,20,30,40,50,60,70,80
 spanning-tree link-type point-to-point
 int range g1/0/16, g1/0/21
 channel-group 2 mode desirable
 no shut
-int po2 
+int po2
 switchport mode trunk
-switchport trunk allowed vlan 20,40,60
+switchport trunk allowed vlan 10,20,30,40,50,60,70,80
 spanning-tree link-type point-to-point
 end
-
-
 
 Access Switch 2
 
@@ -82,19 +80,18 @@ spanning-tree bpduguard enable
 int range g1/0/11, g1/0/16
 channel-group 1 mode desirable
 no shut
-int po1 
+int po1
 switchport mode trunk
-switchport trunk allowed vlan 30,40,60
+switchport trunk allowed vlan 10,20,30,40,50,60,70,80
 spanning-tree link-type point-to-point
 int range g1/0/12, g1/0/17
 channel-group 2 mode desirable
 no shut
-int po2 
+int po2
 switchport mode trunk
-switchport trunk allowed vlan 30,40,60
+switchport trunk allowed vlan 10,20,30,40,50,60,70,80
 spanning-tree link-type point-to-point
 end
-
 
 Access Switch 3
 
@@ -134,26 +131,25 @@ spanning-tree bpduguard enable
 int range g1/0/11, g1/0/16
 channel-group 1 mode desirable
 no shut
-int po1 
+int po1
 switchport mode trunk
-switchport trunk allowed vlan 40,50,60,80
+switchport trunk allowed vlan 10,20,30,40,50,60,70,80
 spanning-tree link-type point-to-point
 int range g1/0/12, g1/0/17
 channel-group 2 mode desirable
 no shut
-int po2 
+int po2
 switchport mode trunk
-switchport trunk allowed vlan 40,50,60,80
+switchport trunk allowed vlan 10,20,30,40,50,60,70,80
 spanning-tree link-type point-to-point
 end
 
-
-Access Switch 4 
+Access Switch 4
 
 en
 conf t
 hostname S4
-vlan 10 
+vlan 10
 name Meeting_RMs
 vlan 40
 name Networking
@@ -162,7 +158,7 @@ name HR
 vlan 70
 name Managers
 spanning-tree mode rapid-pvst
-spanning-tree vlan 40,60,70 priority 61440
+spanning-tree vlan 10,40,60,70 priority 61440
 interface g1/0/17
 switchport mode access
 spanning-tree portfast
@@ -186,19 +182,18 @@ spanning-tree bpduguard enable
 int range g1/0/1, g1/0/13
 channel-group 1 mode desirable
 no shut
-int po1 
+int po1
 switchport mode trunk
-switchport trunk allowed vlan 40,60,70
+switchport trunk allowed vlan 10,20,30,40,50,60,70,80
 spanning-tree link-type point-to-point
 int range g1/0/2, g1/0/14
 channel-group 2 mode desirable
 no shut
-int po2 
+int po2
 switchport mode trunk
-switchport trunk allowed vlan 40,60,70
+switchport trunk allowed vlan 10,20,30,40,50,60,70,80
 spanning-tree link-type point-to-point
 end
-
 
 CS1
 
@@ -227,7 +222,7 @@ int range g1/0/6, g1/0/11
 channel-group 1 mode auto
 spanning-tree guard root
 int po1
-switchport trunk allowed vlan 20,40,60
+switchport trunk allowed vlan 10,20,40,60
 spanning-tree link-type point-to-point
 no shut
 int range g1/0/5, g1/0/10
@@ -248,7 +243,7 @@ int range g1/0/4, g1/0/8
 channel-group 4 mode auto
 spanning-tree guard root
 int po4
-switchport trunk allowed vlan 40,60,70
+switchport trunk allowed vlan 10,40,60,70
 spanning-tree link-type point-to-point
 spanning-tree guard root
 no shut
@@ -313,7 +308,7 @@ interface g1/0/1
 no switchport
 ip add 172.16.1.177 255.255.255.252
 interface g1/0/2
-no switchport 
+no switchport
 ip add 172.16.1.181 255.255.255.252
 ip routing
 
@@ -322,16 +317,6 @@ ip route 0.0.0.0 0.0.0.0 172.16.1.178
 ip route 0.0.0.0 0.0.0.0 172.16.1.182
 
 end
-
-
-
-
-
-
-
-
-
-
 
 CS2
 
@@ -359,7 +344,7 @@ spanning-tree vlan 1,10,20,30,40,50,60,70,80 root secondary
 int range g1/0/5, g1/0/10
 channel-group 1 mode auto
 int po1
-switchport trunk allowed vlan 20,40,60
+switchport trunk allowed vlan 10,20,40,60
 spanning-tree link-type point-to-point
 no shut
 int range g1/0/4, g1/0/11
@@ -377,70 +362,69 @@ no shut
 int range g1/0/3, g1/0/9
 channel-group 4 mode auto
 int po4
-switchport trunk allowed vlan 40,60,70
+switchport trunk allowed vlan 10,40,60,70
 spanning-tree link-type point-to-point
 no shut
 int range g1/0/7, g1/0/8
 no switchport
-channel-group 5 mode on 
+channel-group 5 mode on
 int po5
 ip add 172.16.1.202 255.255.255.252
 
 interface Vlan10
- ip address 172.16.1.3 255.255.255.192
- standby 10 ip 172.16.1.1
- standby 10 priority 90
- standby 10 preempt
+ip address 172.16.1.3 255.255.255.192
+standby 10 ip 172.16.1.1
+standby 10 priority 90
+standby 10 preempt
 
 interface Vlan20
- ip address 172.16.1.67 255.255.255.224
- standby 20 ip 172.16.1.65
- standby 20 priority 90
- standby 20 preempt
+ip address 172.16.1.67 255.255.255.224
+standby 20 ip 172.16.1.65
+standby 20 priority 90
+standby 20 preempt
 
 interface Vlan30
- ip address 172.16.1.99 255.255.255.240
- standby 30 ip 172.16.1.97
- standby 30 priority 90
- standby 30 preempt
+ip address 172.16.1.99 255.255.255.240
+standby 30 ip 172.16.1.97
+standby 30 priority 90
+standby 30 preempt
 
 interface Vlan40
- ip address 172.16.1.115 255.255.255.240
- standby 40 ip 172.16.1.113
- standby 40 priority 90
- standby 40 preempt
+ip address 172.16.1.115 255.255.255.240
+standby 40 ip 172.16.1.113
+standby 40 priority 90
+standby 40 preempt
 
 interface Vlan50
- ip address 172.16.1.131 255.255.255.240
- standby 50 ip 172.16.1.129
- standby 50 priority 90
- standby 50 preempt
+ip address 172.16.1.131 255.255.255.240
+standby 50 ip 172.16.1.129
+standby 50 priority 90
+standby 50 preempt
 
 interface Vlan60
- ip address 172.16.1.147 255.255.255.240
- standby 60 ip 172.16.1.145
- standby 60 priority 90
- standby 60 preempt
+ip address 172.16.1.147 255.255.255.240
+standby 60 ip 172.16.1.145
+standby 60 priority 90
+standby 60 preempt
 
 interface Vlan70
- ip address 172.16.1.163 255.255.255.240
- standby 70 ip 172.16.1.161
- standby 70 priority 90
- standby 70 preempt
+ip address 172.16.1.163 255.255.255.240
+standby 70 ip 172.16.1.161
+standby 70 priority 90
+standby 70 preempt
 
 interface Vlan80
- ip address 172.16.1.195 255.255.255.248
- standby 80 ip 172.16.1.193
- standby 80 priority 90
- standby 80 preempt
-
+ip address 172.16.1.195 255.255.255.248
+standby 80 ip 172.16.1.193
+standby 80 priority 90
+standby 80 preempt
 
 interface g1/0/1
 no switchport
 no shutdown
 ip add 172.16.1.185 255.255.255.252
 interface g1/0/2
-no switchport 
+no switchport
 no shutdown
 ip add 172.16.1.189 255.255.255.252
 ip routing
@@ -451,16 +435,11 @@ ip route 0.0.0.0 0.0.0.0 172.16.1.190
 
 end
 
-
-
-
-
----obselete 
+---obselete
 #c1 g1/0/1 172.16.1.201/30 r1 g0/0/1 172.16.1.202/30
 #c1 g1/0/2 172.16.1.205/30 r2 g0/0/1 172.16.1.206/30
 #c2 g1/0/1 172.16.1.209/30 r2 g0/0/0 172.16.1.210/30
 #c2 g1/0/2 172.16.1.213/30 r1 g0/0/0 172.16.1.214/30
-
 
 r1
 en
@@ -468,22 +447,25 @@ conf t
 hostname r1
 
 interface g0/0/0
- ip address 172.16.1.190 255.255.255.252
- ip nat inside
- no shutdown
+ip address 172.16.1.190 255.255.255.252
+ip nat inside
+no shutdown
 
 interface g0/0/1
- ip address 172.16.1.178 255.255.255.252
- ip nat inside
- no shutdown
+ip address 172.16.1.178 255.255.255.252
+ip nat inside
+no shutdown
 
 interface g0/1/0
- ip address 172.17.9.5 255.255.255.252
- ip nat outside
- no shutdown
+ip address 172.17.9.5 255.255.255.252
+ip nat outside
+no shutdown
 
 ! Static NAT for server
 ip nat inside source static 172.16.1.196 203.149.210.10
+ip nat inside source list 1 int g0/1/0 overload
+ip access-list standard 1
+10 permit 172.16.1.0 0.0.0.255
 
 ! Route back to entire 172.16.1.0/24 via both core switches
 ip route 172.16.1.0 255.255.255.0 172.16.1.177
@@ -494,50 +476,40 @@ ip route 0.0.0.0 0.0.0.0 172.17.9.6
 
 end
 
-
-
-
 r2
 en
 conf t
 hostname r2
 
 interface g0/0/0
- ip address 172.16.1.186 255.255.255.252
- ip nat inside
- no shutdown
+ip address 172.16.1.186 255.255.255.252
+ip nat inside
+no shutdown
 
 interface g0/0/1
- ip address 172.16.1.182 255.255.255.252
- ip nat inside
- no shutdown
+ip address 172.16.1.182 255.255.255.252
+ip nat inside
+no shutdown
 
 interface g0/1/0
- ip address 172.17.10.5 255.255.255.252
- ip nat outside
- no shutdown
+ip address 172.17.10.5 255.255.255.252
+ip nat outside
+no shutdown
 
 ! Static NAT for server
 ip nat inside source static 172.16.1.196 129.126.142.10
+ip nat inside source list 1 int g0/1/0 overload
+ip access-list standard 1
+10 permit 172.16.1.0 0.0.0.255
 
 ! Route back to both core switches
-ip route 172.16.1.0 255.255.255.0  172.16.1.185
-ip route 172.16.1.0 255.255.255.0  172.16.1.181
+ip route 172.16.1.0 255.255.255.0 172.16.1.185
+ip route 172.16.1.0 255.255.255.0 172.16.1.181
 
 ! Default route to ISP 2
 ip route 0.0.0.0 0.0.0.0 172.17.10.6
 
 end
-
-
-
-
-
-
-
-
-
-
 
 run these ip nat mappings instead
 
@@ -553,7 +525,7 @@ ip nat inside source static 172.16.1.197 129.126.142.10
 
 assuming that the web server runs on .197 and not on the same machine as the dns
 
-now the qn is why ys is hitting our isp outbound interface and dying there 
+now the qn is why ys is hitting our isp outbound interface and dying there
 (thats with nat to translate .11,if its not set to translate it just bounces up and down .5 and .6)
 
 should be unrelated to the dns but once it gets unfucked
@@ -564,12 +536,8 @@ imma take a shot at bind9 and this crazy ramble
 
 if this works im gna fuggin nut and maybe hook r1 to r2 with ospf
 
-
 bind 9 works js rmb to set static ip when plugging in
 idk if need to allow more networks in
-
-
-
 
 c1
 interface Vlan99
@@ -595,8 +563,8 @@ no ip route 0.0.0.0 0.0.0.0 172.16.1.206
 ip route 0.0.0.0 0.0.0.0 172.16.1.178
 ip route 0.0.0.0 0.0.0.0 172.16.1.182
 
+---
 
------
 dhcp
 ! DHCP Excluded Addresses
 ip dhcp excluded-address 172.16.1.0 172.16.1.3
@@ -667,36 +635,49 @@ exit
 interface Vlan10
 ip helper-address 172.16.1.2
 ip helper-address 172.16.1.3
+
 exit
 
 interface Vlan20
 ip helper-address 172.16.1.66
 ip helper-address 172.16.1.67
+
 exit
 
 interface Vlan30
 ip helper-address 172.16.1.98
 ip helper-address 172.16.1.99
+
 exit
 
 interface Vlan40
 ip helper-address 172.16.1.114
 ip helper-address 172.16.1.115
+
 exit
 
 interface Vlan50
 ip helper-address 172.16.1.130
 ip helper-address 172.16.1.131
+
 exit
 
 interface Vlan60
 ip helper-address 172.16.1.146
 ip helper-address 172.16.1.147
+
 exit
 
 interface Vlan70
 ip helper-address 172.16.1.162
 ip helper-address 172.16.1.163
+
+exit
+
+! Changes number of ping packets to DHCP to be lower than C2
+! This makes C1 faster in response
+conf t
+ip dhcp ping packets 1
 exit
 
 ! DHCP Snooping abit shady maybe hold first
@@ -705,10 +686,6 @@ ip dhcp snooping vlan 10,20,30,40,50,60,70
 no ip dhcp snooping information option
 
 end
-
-
-
-
 
 c2
 interface Vlan99
@@ -734,10 +711,8 @@ no ip route 0.0.0.0 0.0.0.0 172.16.1.214
 ip route 0.0.0.0 0.0.0.0 172.16.1.186
 ip route 0.0.0.0 0.0.0.0 172.16.1.190
 
+---
 
-
-
------
 this part backup wait for me first
 ! DHCP Excluded Addresses (excludes lower range CS1 will serve)
 ip dhcp excluded-address 172.16.1.0 172.16.1.19
@@ -840,6 +815,12 @@ ip helper-address 172.16.1.162
 ip helper-address 172.16.1.163
 exit
 
+! Changes number of ping packets to DHCP to be higher than C1
+! This makes C2 slower in response
+conf t
+ip dhcp ping packets 3
+exit
+
 ! DHCP Snooping
 ip dhcp snooping
 ip dhcp snooping vlan 10,20,30,40,50,60,70
@@ -847,56 +828,35 @@ no ip dhcp snooping information option
 
 end
 
-
-
-
-
-
-
 r1
 interface g0/0/0
 no ip address 172.16.1.214 255.255.255.252
 ip address 172.16.1.190 255.255.255.252
-
 
 interface g0/0/1
 no ip address 172.16.1.202 255.255.255.252
 ip address 172.16.1.178 255.255.255.252
 exit
 
-
 no ip route 172.16.1.0 255.255.255.0 172.16.1.201
 no ip route 172.16.1.0 255.255.255.0 172.16.1.213
 ip route 172.16.1.0 255.255.255.0 172.16.1.177
 ip route 172.16.1.0 255.255.255.0 172.16.1.189
-
-
-
-
-
-
-
 
 r2
 interface g0/0/0
 no ip address 172.16.1.210 255.255.255.252
 ip address 172.16.1.186 255.255.255.252
 
-
 interface g0/0/1
 no ip address 172.16.1.206 255.255.255.252
 ip address 172.16.1.182 255.255.255.252
 exit
 
-
 no ip route 172.16.1.0 255.255.255.0 172.16.1.205
 no ip route 172.16.1.0 255.255.255.0 172.16.1.209
 ip route 172.16.1.0 255.255.255.0 172.16.1.185
 ip route 172.16.1.0 255.255.255.0 172.16.1.181
-
-
-
-
 
 switches
 enable
@@ -923,16 +883,6 @@ exit
 
 end
 
-
-
-
-
-
-
-
-
-
-
 ping 35.212.236.94 from dns to cfm outside connectivity
 ping 8.8.8.8 dingdingding
 ping across same vlan
@@ -940,6 +890,3 @@ ping to diff vlan
 
 sh spanning-tree summary
 sh etherchannel summary
-
-
-
