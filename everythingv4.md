@@ -261,42 +261,56 @@ ip address 172.16.1.2 255.255.255.192
 standby 10 ip 172.16.1.1
 standby 10 priority 110
 standby 10 preempt
+ip helper-address 172.16.1.2
+ip helper-address 172.16.1.3
 
 interface Vlan20
 ip address 172.16.1.66 255.255.255.224
 standby 20 ip 172.16.1.65
 standby 20 priority 110
 standby 20 preempt
+ip helper-address 172.16.1.66
+ip helper-address 172.16.1.67
 
 interface Vlan30
 ip address 172.16.1.98 255.255.255.240
 standby 30 ip 172.16.1.97
 standby 30 priority 110
 standby 30 preempt
+ip helper-address 172.16.1.98
+ip helper-address 172.16.1.99
 
 interface Vlan40
 ip address 172.16.1.114 255.255.255.240
 standby 40 ip 172.16.1.113
 standby 40 priority 110
 standby 40 preempt
+ip helper-address 172.16.1.114
+ip helper-address 172.16.1.115
 
 interface Vlan50
 ip address 172.16.1.130 255.255.255.240
 standby 50 ip 172.16.1.129
 standby 50 priority 110
 standby 50 preempt
+ip helper-address 172.16.1.130
+ip helper-address 172.16.1.131
 
 interface Vlan60
 ip address 172.16.1.146 255.255.255.240
 standby 60 ip 172.16.1.145
 standby 60 priority 110
 standby 60 preempt
+ip helper-address 172.16.1.146
+ip helper-address 172.16.1.147
 
 interface Vlan70
 ip address 172.16.1.162 255.255.255.240
 standby 70 ip 172.16.1.161
 standby 70 priority 110
 standby 70 preempt
+ip helper-address 172.16.1.162
+ip helper-address 172.16.1.163
 
 interface Vlan80
 ip address 172.16.1.194 255.255.255.248
@@ -315,6 +329,82 @@ ip routing
 ! Default routes to both routers
 ip route 0.0.0.0 0.0.0.0 172.16.1.178
 ip route 0.0.0.0 0.0.0.0 172.16.1.182
+
+! DHCP Excluded Addresses
+ip dhcp excluded-address 172.16.1.0 172.16.1.3
+ip dhcp excluded-address 172.16.1.64 172.16.1.67
+ip dhcp excluded-address 172.16.1.96 172.16.1.99
+ip dhcp excluded-address 172.16.1.112 172.16.1.115
+ip dhcp excluded-address 172.16.1.128 172.16.1.131
+ip dhcp excluded-address 172.16.1.144 172.16.1.147
+ip dhcp excluded-address 172.16.1.160 172.16.1.163
+
+! VLAN 10 - Meeting Rooms
+ip dhcp pool VLAN10_Meeting_RMs
+network 172.16.1.0 255.255.255.192
+default-router 172.16.1.1
+dns-server 172.16.1.196
+lease 1
+exit
+
+! VLAN 20 - CS
+ip dhcp pool VLAN20_CS
+network 172.16.1.64 255.255.255.224
+default-router 172.16.1.65
+dns-server 172.16.1.196
+lease 1
+exit
+
+! VLAN 30 - Marketing
+ip dhcp pool VLAN30_Marketing
+network 172.16.1.96 255.255.255.240
+default-router 172.16.1.97
+dns-server 172.16.1.196
+lease 1
+exit
+
+! VLAN 40 - Networking
+ip dhcp pool VLAN40_Networking
+network 172.16.1.112 255.255.255.240
+default-router 172.16.1.113
+dns-server 172.16.1.196
+lease 1
+exit
+
+! VLAN 50 - Solutions
+ip dhcp pool VLAN50_Solutions
+network 172.16.1.128 255.255.255.240
+default-router 172.16.1.129
+dns-server 172.16.1.196
+lease 1
+exit
+
+! VLAN 60 - HR
+ip dhcp pool VLAN60_HR
+network 172.16.1.144 255.255.255.240
+default-router 172.16.1.145
+dns-server 172.16.1.196
+lease 1
+exit
+
+! VLAN 70 - Managers
+ip dhcp pool VLAN70_Managers
+network 172.16.1.160 255.255.255.240
+default-router 172.16.1.161
+dns-server 172.16.1.196
+lease 1
+exit
+
+! Changes number of ping packets to DHCP to be lower than C2
+! This makes C1 faster in response
+conf t
+ip dhcp ping packets 1
+exit
+
+! DHCP Snooping abit shady maybe hold first
+ip dhcp snooping
+ip dhcp snooping vlan 10,20,30,40,50,60,70
+no ip dhcp snooping information option
 
 end
 
@@ -376,42 +466,56 @@ ip address 172.16.1.3 255.255.255.192
 standby 10 ip 172.16.1.1
 standby 10 priority 90
 standby 10 preempt
+ip helper-address 172.16.1.2
+ip helper-address 172.16.1.3
 
 interface Vlan20
 ip address 172.16.1.67 255.255.255.224
 standby 20 ip 172.16.1.65
 standby 20 priority 90
 standby 20 preempt
+ip helper-address 172.16.1.66
+ip helper-address 172.16.1.67
 
 interface Vlan30
 ip address 172.16.1.99 255.255.255.240
 standby 30 ip 172.16.1.97
 standby 30 priority 90
 standby 30 preempt
+ip helper-address 172.16.1.98
+ip helper-address 172.16.1.99
 
 interface Vlan40
 ip address 172.16.1.115 255.255.255.240
 standby 40 ip 172.16.1.113
 standby 40 priority 90
 standby 40 preempt
+ip helper-address 172.16.1.114
+ip helper-address 172.16.1.115
 
 interface Vlan50
 ip address 172.16.1.131 255.255.255.240
 standby 50 ip 172.16.1.129
 standby 50 priority 90
 standby 50 preempt
+ip helper-address 172.16.1.130
+ip helper-address 172.16.1.131
 
 interface Vlan60
 ip address 172.16.1.147 255.255.255.240
 standby 60 ip 172.16.1.145
 standby 60 priority 90
 standby 60 preempt
+ip helper-address 172.16.1.146
+ip helper-address 172.16.1.147
 
 interface Vlan70
 ip address 172.16.1.163 255.255.255.240
 standby 70 ip 172.16.1.161
 standby 70 priority 90
 standby 70 preempt
+ip helper-address 172.16.1.162
+ip helper-address 172.16.1.163
 
 interface Vlan80
 ip address 172.16.1.195 255.255.255.248
@@ -433,13 +537,82 @@ ip routing
 ip route 0.0.0.0 0.0.0.0 172.16.1.186
 ip route 0.0.0.0 0.0.0.0 172.16.1.190
 
-end
+ip dhcp excluded-address 172.16.1.0 172.16.1.19
+ip dhcp excluded-address 172.16.1.64 172.16.1.71
+ip dhcp excluded-address 172.16.1.96 172.16.1.103
+ip dhcp excluded-address 172.16.1.112 172.16.1.117
+ip dhcp excluded-address 172.16.1.128 172.16.1.133
+ip dhcp excluded-address 172.16.1.144 172.16.1.149
+ip dhcp excluded-address 172.16.1.160 172.16.1.164
 
----obselete
-#c1 g1/0/1 172.16.1.201/30 r1 g0/0/1 172.16.1.202/30
-#c1 g1/0/2 172.16.1.205/30 r2 g0/0/1 172.16.1.206/30
-#c2 g1/0/1 172.16.1.209/30 r2 g0/0/0 172.16.1.210/30
-#c2 g1/0/2 172.16.1.213/30 r1 g0/0/0 172.16.1.214/30
+! VLAN 10 - Meeting Rooms Backup
+ip dhcp pool VLAN10_Meeting_RMs_BK
+network 172.16.1.0 255.255.255.192
+default-router 172.16.1.1
+dns-server 172.16.1.196
+lease 0 12
+exit
+
+! VLAN 20 - CS Backup
+ip dhcp pool VLAN20_CS_BK
+network 172.16.1.64 255.255.255.224
+default-router 172.16.1.65
+dns-server 172.16.1.196
+lease 0 12
+exit
+
+! VLAN 30 - Marketing Backup
+ip dhcp pool VLAN30_Marketing_BK
+network 172.16.1.96 255.255.255.240
+default-router 172.16.1.97
+dns-server 172.16.1.196
+lease 0 12
+exit
+
+! VLAN 40 - Networking Backup
+ip dhcp pool VLAN40_Networking_BK
+network 172.16.1.112 255.255.255.240
+default-router 172.16.1.113
+dns-server 172.16.1.196
+lease 0 12
+exit
+
+! VLAN 50 - Solutions Backup
+ip dhcp pool VLAN50_Solutions_BK
+network 172.16.1.128 255.255.255.240
+default-router 172.16.1.129
+dns-server 172.16.1.196
+lease 0 12
+exit
+
+! VLAN 60 - HR Backup
+ip dhcp pool VLAN60_HR_BK
+network 172.16.1.144 255.255.255.240
+default-router 172.16.1.145
+dns-server 172.16.1.196
+lease 0 12
+exit
+
+! VLAN 70 - Managers Backup
+ip dhcp pool VLAN70_Managers_BK
+network 172.16.1.160 255.255.255.240
+default-router 172.16.1.161
+dns-server 172.16.1.196
+lease 0 12
+exit
+
+! Changes number of ping packets to DHCP to be higher than C1
+! This makes C2 slower in response
+conf t
+ip dhcp ping packets 3
+exit
+
+! DHCP Snooping
+ip dhcp snooping
+ip dhcp snooping vlan 10,20,30,40,50,60,70
+no ip dhcp snooping information option
+
+end
 
 r1
 en
@@ -538,325 +711,6 @@ if this works im gna fuggin nut and maybe hook r1 to r2 with ospf
 
 bind 9 works js rmb to set static ip when plugging in
 idk if need to allow more networks in
-
-c1
-interface Vlan99
-no ip address 172.16.1.178 255.255.255.240
-no standby 99 ip 172.16.1.177
-no standby 99 priority 110
-no standby 99 preempt
-shutdown
-exit
-no int vlan 99
-no spanning-tree vlan 99
-no vlan 99
-
-interface g1/0/1
-no ip add 172.16.1.201 255.255.255.252
-ip add 172.16.1.177 255.255.255.252
-interface g1/0/2
-no ip add 172.16.1.205 255.255.255.252
-ip add 172.16.1.181 255.255.255.252
-exit
-no ip route 0.0.0.0 0.0.0.0 172.16.1.202
-no ip route 0.0.0.0 0.0.0.0 172.16.1.206
-ip route 0.0.0.0 0.0.0.0 172.16.1.178
-ip route 0.0.0.0 0.0.0.0 172.16.1.182
-
----
-
-dhcp
-! DHCP Excluded Addresses
-ip dhcp excluded-address 172.16.1.0 172.16.1.3
-ip dhcp excluded-address 172.16.1.64 172.16.1.67
-ip dhcp excluded-address 172.16.1.96 172.16.1.99
-ip dhcp excluded-address 172.16.1.112 172.16.1.115
-ip dhcp excluded-address 172.16.1.128 172.16.1.131
-ip dhcp excluded-address 172.16.1.144 172.16.1.147
-ip dhcp excluded-address 172.16.1.160 172.16.1.163
-
-! VLAN 10 - Meeting Rooms
-ip dhcp pool VLAN10_Meeting_RMs
-network 172.16.1.0 255.255.255.192
-default-router 172.16.1.1
-dns-server 172.16.1.196
-lease 1
-exit
-
-! VLAN 20 - CS
-ip dhcp pool VLAN20_CS
-network 172.16.1.64 255.255.255.224
-default-router 172.16.1.65
-dns-server 172.16.1.196
-lease 1
-exit
-
-! VLAN 30 - Marketing
-ip dhcp pool VLAN30_Marketing
-network 172.16.1.96 255.255.255.240
-default-router 172.16.1.97
-dns-server 172.16.1.196
-lease 1
-exit
-
-! VLAN 40 - Networking
-ip dhcp pool VLAN40_Networking
-network 172.16.1.112 255.255.255.240
-default-router 172.16.1.113
-dns-server 172.16.1.196
-lease 1
-exit
-
-! VLAN 50 - Solutions
-ip dhcp pool VLAN50_Solutions
-network 172.16.1.128 255.255.255.240
-default-router 172.16.1.129
-dns-server 172.16.1.196
-lease 1
-exit
-
-! VLAN 60 - HR
-ip dhcp pool VLAN60_HR
-network 172.16.1.144 255.255.255.240
-default-router 172.16.1.145
-dns-server 172.16.1.196
-lease 1
-exit
-
-! VLAN 70 - Managers
-ip dhcp pool VLAN70_Managers
-network 172.16.1.160 255.255.255.240
-default-router 172.16.1.161
-dns-server 172.16.1.196
-lease 1
-exit
-
-! Helper addresses on SVIs
-interface Vlan10
-ip helper-address 172.16.1.2
-ip helper-address 172.16.1.3
-
-exit
-
-interface Vlan20
-ip helper-address 172.16.1.66
-ip helper-address 172.16.1.67
-
-exit
-
-interface Vlan30
-ip helper-address 172.16.1.98
-ip helper-address 172.16.1.99
-
-exit
-
-interface Vlan40
-ip helper-address 172.16.1.114
-ip helper-address 172.16.1.115
-
-exit
-
-interface Vlan50
-ip helper-address 172.16.1.130
-ip helper-address 172.16.1.131
-
-exit
-
-interface Vlan60
-ip helper-address 172.16.1.146
-ip helper-address 172.16.1.147
-
-exit
-
-interface Vlan70
-ip helper-address 172.16.1.162
-ip helper-address 172.16.1.163
-
-exit
-
-! Changes number of ping packets to DHCP to be lower than C2
-! This makes C1 faster in response
-conf t
-ip dhcp ping packets 1
-exit
-
-! DHCP Snooping abit shady maybe hold first
-ip dhcp snooping
-ip dhcp snooping vlan 10,20,30,40,50,60,70
-no ip dhcp snooping information option
-
-end
-
-c2
-interface Vlan99
-no ip address 172.16.1.179 255.255.255.240
-no standby 99 ip 172.16.1.177
-no standby 99 priority 90
-no standby 99 preempt
-shutdown
-exit
-no int vlan 99
-no spanning-tree vlan 99
-no vlan 99
-
-interface g1/0/1
-no ip add 172.16.1.209 255.255.255.252
-ip add 172.16.1.185 255.255.255.252
-interface g1/0/2
-no ip add 172.16.1.213 255.255.255.252
-ip add 172.16.1.189 255.255.255.252
-exit
-no ip route 0.0.0.0 0.0.0.0 172.16.1.210
-no ip route 0.0.0.0 0.0.0.0 172.16.1.214
-ip route 0.0.0.0 0.0.0.0 172.16.1.186
-ip route 0.0.0.0 0.0.0.0 172.16.1.190
-
----
-
-this part backup wait for me first
-! DHCP Excluded Addresses (excludes lower range CS1 will serve)
-ip dhcp excluded-address 172.16.1.0 172.16.1.19
-ip dhcp excluded-address 172.16.1.64 172.16.1.71
-ip dhcp excluded-address 172.16.1.96 172.16.1.103
-ip dhcp excluded-address 172.16.1.112 172.16.1.117
-ip dhcp excluded-address 172.16.1.128 172.16.1.133
-ip dhcp excluded-address 172.16.1.144 172.16.1.149
-ip dhcp excluded-address 172.16.1.160 172.16.1.164
-
-! VLAN 10 - Meeting Rooms Backup
-ip dhcp pool VLAN10_Meeting_RMs_BK
-network 172.16.1.0 255.255.255.192
-default-router 172.16.1.1
-dns-server 172.16.1.196
-lease 0 12
-exit
-
-! VLAN 20 - CS Backup
-ip dhcp pool VLAN20_CS_BK
-network 172.16.1.64 255.255.255.224
-default-router 172.16.1.65
-dns-server 172.16.1.196
-lease 0 12
-exit
-
-! VLAN 30 - Marketing Backup
-ip dhcp pool VLAN30_Marketing_BK
-network 172.16.1.96 255.255.255.240
-default-router 172.16.1.97
-dns-server 172.16.1.196
-lease 0 12
-exit
-
-! VLAN 40 - Networking Backup
-ip dhcp pool VLAN40_Networking_BK
-network 172.16.1.112 255.255.255.240
-default-router 172.16.1.113
-dns-server 172.16.1.196
-lease 0 12
-exit
-
-! VLAN 50 - Solutions Backup
-ip dhcp pool VLAN50_Solutions_BK
-network 172.16.1.128 255.255.255.240
-default-router 172.16.1.129
-dns-server 172.16.1.196
-lease 0 12
-exit
-
-! VLAN 60 - HR Backup
-ip dhcp pool VLAN60_HR_BK
-network 172.16.1.144 255.255.255.240
-default-router 172.16.1.145
-dns-server 172.16.1.196
-lease 0 12
-exit
-
-! VLAN 70 - Managers Backup
-ip dhcp pool VLAN70_Managers_BK
-network 172.16.1.160 255.255.255.240
-default-router 172.16.1.161
-dns-server 172.16.1.196
-lease 0 12
-exit
-
-! Helper addresses on SVIs (CS1 listed first as primary)
-interface Vlan10
-ip helper-address 172.16.1.2
-ip helper-address 172.16.1.3
-exit
-
-interface Vlan20
-ip helper-address 172.16.1.66
-ip helper-address 172.16.1.67
-exit
-
-interface Vlan30
-ip helper-address 172.16.1.98
-ip helper-address 172.16.1.99
-exit
-
-interface Vlan40
-ip helper-address 172.16.1.114
-ip helper-address 172.16.1.115
-exit
-
-interface Vlan50
-ip helper-address 172.16.1.130
-ip helper-address 172.16.1.131
-exit
-
-interface Vlan60
-ip helper-address 172.16.1.146
-ip helper-address 172.16.1.147
-exit
-
-interface Vlan70
-ip helper-address 172.16.1.162
-ip helper-address 172.16.1.163
-exit
-
-! Changes number of ping packets to DHCP to be higher than C1
-! This makes C2 slower in response
-conf t
-ip dhcp ping packets 3
-exit
-
-! DHCP Snooping
-ip dhcp snooping
-ip dhcp snooping vlan 10,20,30,40,50,60,70
-no ip dhcp snooping information option
-
-end
-
-r1
-interface g0/0/0
-no ip address 172.16.1.214 255.255.255.252
-ip address 172.16.1.190 255.255.255.252
-
-interface g0/0/1
-no ip address 172.16.1.202 255.255.255.252
-ip address 172.16.1.178 255.255.255.252
-exit
-
-no ip route 172.16.1.0 255.255.255.0 172.16.1.201
-no ip route 172.16.1.0 255.255.255.0 172.16.1.213
-ip route 172.16.1.0 255.255.255.0 172.16.1.177
-ip route 172.16.1.0 255.255.255.0 172.16.1.189
-
-r2
-interface g0/0/0
-no ip address 172.16.1.210 255.255.255.252
-ip address 172.16.1.186 255.255.255.252
-
-interface g0/0/1
-no ip address 172.16.1.206 255.255.255.252
-ip address 172.16.1.182 255.255.255.252
-exit
-
-no ip route 172.16.1.0 255.255.255.0 172.16.1.205
-no ip route 172.16.1.0 255.255.255.0 172.16.1.209
-ip route 172.16.1.0 255.255.255.0 172.16.1.185
-ip route 172.16.1.0 255.255.255.0 172.16.1.181
 
 switches
 enable
