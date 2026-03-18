@@ -1,0 +1,396 @@
+en
+C2#terminal length 0
+C2#show running-config
+Building configuration...
+
+Current configuration : 8725 bytes
+!
+! Last configuration change at 05:32:52 UTC Wed Mar 18 2026
+!
+version 17.12
+service timestamps debug datetime msec
+service timestamps log datetime msec
+platform punt-keepalive disable-kernel-core
+!
+hostname C2
+!
+!
+vrf definition Mgmt-vrf
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+no aaa new-model
+switch 1 provision c9300l-24t-4g
+!
+!
+!
+!
+ip routing
+!
+!
+!
+!
+!
+ip dhcp excluded-address 172.16.1.0 172.16.1.19
+ip dhcp excluded-address 172.16.1.64 172.16.1.71
+ip dhcp excluded-address 172.16.1.96 172.16.1.103
+ip dhcp excluded-address 172.16.1.112 172.16.1.117
+ip dhcp excluded-address 172.16.1.128 172.16.1.133
+ip dhcp excluded-address 172.16.1.144 172.16.1.149
+ip dhcp excluded-address 172.16.1.160 172.16.1.164
+ip dhcp ping packets 3
+!
+ip dhcp pool VLAN10_Meeting_RMs_BK
+ network 172.16.1.0 255.255.255.192
+ default-router 172.16.1.1 
+ dns-server 172.16.1.196 
+ lease 0 12
+!
+ip dhcp pool VLAN20_CS_BK
+ network 172.16.1.64 255.255.255.224
+ default-router 172.16.1.65 
+ dns-server 172.16.1.196 
+ lease 0 12
+!
+ip dhcp pool VLAN30_Marketing_BK
+ network 172.16.1.96 255.255.255.240
+ default-router 172.16.1.97 
+ dns-server 172.16.1.196 
+ lease 0 12
+!
+ip dhcp pool VLAN40_Networking_BK
+ network 172.16.1.112 255.255.255.240
+ default-router 172.16.1.113 
+ dns-server 172.16.1.196 
+ lease 0 12
+!
+ip dhcp pool VLAN50_Solutions_BK
+ network 172.16.1.128 255.255.255.240
+ default-router 172.16.1.129 
+ dns-server 172.16.1.196 
+ lease 0 12
+!
+ip dhcp pool VLAN60_HR_BK
+ network 172.16.1.144 255.255.255.240
+ default-router 172.16.1.145 
+ dns-server 172.16.1.196 
+ lease 0 12
+!
+ip dhcp pool VLAN70_Managers_BK
+ network 172.16.1.160 255.255.255.240
+ default-router 172.16.1.161 
+ dns-server 172.16.1.196 
+ lease 0 12
+!
+!
+!
+ip dhcp snooping vlan 10,20,30,40,50,60,70
+no ip dhcp snooping information option
+ip dhcp snooping
+login on-success log
+vtp version 1
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+license boot level network-advantage addon dna-advantage
+memory free low-watermark processor 130180
+!
+diagnostic bootup level minimal
+!
+spanning-tree mode rapid-pvst
+spanning-tree extend system-id
+spanning-tree vlan 1,10,20,30,40,50,60,70,80 priority 28672
+!
+!
+!
+!
+redundancy
+ mode sso
+crypto engine compliance shield disable
+!
+!
+!
+!
+!
+transceiver type all
+ monitoring
+!
+!
+class-map match-any system-cpp-police-ewlc-control
+  description EWLC Control 
+class-map match-any system-cpp-police-topology-control
+  description Topology control
+class-map match-any system-cpp-police-sw-forward
+  description Sw forwarding, L2 LVX data packets, LOGGING, Transit Traffic
+class-map match-any system-cpp-default
+  description EWLC Data, Inter FED Traffic 
+class-map match-any system-cpp-police-sys-data
+  description Openflow, Exception, EGR Exception, NFL Sampled Data, RPF Failed
+class-map match-any system-cpp-police-punt-webauth
+  description Punt Webauth
+class-map match-any system-cpp-police-l2lvx-control
+  description L2 LVX control packets
+class-map match-any system-cpp-police-forus
+  description Forus Address resolution and Forus traffic
+class-map match-any system-cpp-police-multicast-end-station
+  description MCAST END STATION
+class-map match-any system-cpp-police-high-rate-app
+  description High Rate Applications 
+class-map match-any system-cpp-police-multicast
+  description MCAST Data
+class-map match-any system-cpp-police-l2-control
+  description L2 control
+class-map match-any system-cpp-police-dot1x-auth
+  description DOT1X Auth
+class-map match-any system-cpp-police-data
+  description ICMP redirect, ICMP_GEN and BROADCAST
+class-map match-any system-cpp-police-stackwise-virt-control
+  description Stackwise Virtual OOB
+class-map match-any non-client-nrt-class
+class-map match-any system-cpp-police-routing-control
+  description Routing control and Low Latency
+class-map match-any system-cpp-police-protocol-snooping
+  description Protocol snooping
+class-map match-any system-cpp-police-dhcp-snooping
+  description DHCP snooping
+class-map match-any system-cpp-police-ios-routing
+  description L2 control, Topology control, Routing control, Low Latency
+class-map match-any system-cpp-police-system-critical
+  description System Critical and Gold Pkt
+class-map match-any system-cpp-police-ios-feature
+  description ICMPGEN,BROADCAST,ICMP,L2LVXCntrl,ProtoSnoop,PuntWebauth,MCASTData,Transit,DOT1XAuth,Swfwd,LOGGING,L2LVXData,ForusTraffic,ForusARP,McastEndStn,Openflow,Exception,EGRExcption,NflSampled,RpfFailed
+!
+policy-map system-cpp-policy
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Port-channel1
+ switchport trunk allowed vlan 10,20,40,60
+ spanning-tree link-type point-to-point
+!
+interface Port-channel2
+ switchport trunk allowed vlan 30,40,60
+ spanning-tree link-type point-to-point
+!
+interface Port-channel3
+ switchport trunk allowed vlan 40,50,60,80
+ spanning-tree link-type point-to-point
+!
+interface Port-channel4
+ switchport trunk allowed vlan 10,40,60,70
+ spanning-tree link-type point-to-point
+!
+interface Port-channel5
+ no switchport
+ ip address 172.16.1.202 255.255.255.252
+!
+interface GigabitEthernet0/0
+ vrf forwarding Mgmt-vrf
+ no ip address
+ negotiation auto
+!
+interface GigabitEthernet1/0/1
+ no switchport
+ ip address 172.16.1.185 255.255.255.252
+!
+interface GigabitEthernet1/0/2
+ no switchport
+ ip address 172.16.1.189 255.255.255.252
+!
+interface GigabitEthernet1/0/3
+ switchport trunk allowed vlan 10,40,60,70
+ channel-group 4 mode auto
+!
+interface GigabitEthernet1/0/4
+ switchport trunk allowed vlan 30,40,60
+ channel-group 2 mode auto
+!
+interface GigabitEthernet1/0/5
+ switchport trunk allowed vlan 10,20,40,60
+ channel-group 1 mode auto
+!
+interface GigabitEthernet1/0/6
+ switchport trunk allowed vlan 40,50,60,80
+ channel-group 3 mode auto
+!
+interface GigabitEthernet1/0/7
+ no switchport
+ no ip address
+ channel-group 5 mode on
+!
+interface GigabitEthernet1/0/8
+ no switchport
+ no ip address
+ channel-group 5 mode on
+!
+interface GigabitEthernet1/0/9
+ switchport trunk allowed vlan 10,40,60,70
+ channel-group 4 mode auto
+!
+interface GigabitEthernet1/0/10
+ switchport trunk allowed vlan 10,20,40,60
+ channel-group 1 mode auto
+!
+interface GigabitEthernet1/0/11
+ switchport trunk allowed vlan 30,40,60
+ channel-group 2 mode auto
+!
+interface GigabitEthernet1/0/12
+ switchport trunk allowed vlan 40,50,60,80
+ channel-group 3 mode auto
+!
+interface GigabitEthernet1/0/13
+!
+interface GigabitEthernet1/0/14
+!
+interface GigabitEthernet1/0/15
+!
+interface GigabitEthernet1/0/16
+!
+interface GigabitEthernet1/0/17
+!
+interface GigabitEthernet1/0/18
+!
+interface GigabitEthernet1/0/19
+!
+interface GigabitEthernet1/0/20
+!
+interface GigabitEthernet1/0/21
+!
+interface GigabitEthernet1/0/22
+!
+interface GigabitEthernet1/0/23
+!
+interface GigabitEthernet1/0/24
+!
+interface GigabitEthernet1/1/1
+!
+interface GigabitEthernet1/1/2
+!
+interface GigabitEthernet1/1/3
+!
+interface GigabitEthernet1/1/4
+!
+interface AppGigabitEthernet1/0/1
+!
+interface Vlan1
+ no ip address
+!
+interface Vlan10
+ ip address 172.16.1.3 255.255.255.192
+ ip helper-address 172.16.1.2
+ ip helper-address 172.16.1.3
+ standby 10 ip 172.16.1.1
+ standby 10 priority 90
+ standby 10 preempt
+!
+interface Vlan20
+ ip address 172.16.1.67 255.255.255.224
+ ip helper-address 172.16.1.66
+ ip helper-address 172.16.1.67
+ standby 20 ip 172.16.1.65
+ standby 20 priority 90
+ standby 20 preempt
+!
+interface Vlan30
+ ip address 172.16.1.99 255.255.255.240
+ ip helper-address 172.16.1.98
+ ip helper-address 172.16.1.99
+ standby 30 ip 172.16.1.97
+ standby 30 priority 90
+ standby 30 preempt
+!
+interface Vlan40
+ ip address 172.16.1.115 255.255.255.240
+ ip helper-address 172.16.1.114
+ ip helper-address 172.16.1.115
+ standby 40 ip 172.16.1.113
+ standby 40 priority 90
+ standby 40 preempt
+!
+interface Vlan50
+ ip address 172.16.1.131 255.255.255.240
+ ip helper-address 172.16.1.130
+ ip helper-address 172.16.1.131
+ standby 50 ip 172.16.1.129
+ standby 50 priority 90
+ standby 50 preempt
+!
+interface Vlan60
+ ip address 172.16.1.147 255.255.255.240
+ ip helper-address 172.16.1.146
+ ip helper-address 172.16.1.147
+ standby 60 ip 172.16.1.145
+ standby 60 priority 90
+ standby 60 preempt
+!
+interface Vlan70
+ ip address 172.16.1.163 255.255.255.240
+ ip helper-address 172.16.1.162
+ ip helper-address 172.16.1.163
+ standby 70 ip 172.16.1.161
+ standby 70 priority 90
+ standby 70 preempt
+!
+interface Vlan80
+ ip address 172.16.1.195 255.255.255.248
+ standby 80 ip 172.16.1.193
+ standby 80 priority 90
+ standby 80 preempt
+!
+ip forward-protocol nd
+ip http server
+ip http secure-server
+ip route 0.0.0.0 0.0.0.0 172.16.1.186
+ip route 0.0.0.0 0.0.0.0 172.16.1.190
+ip ssh bulk-mode 131072
+!
+!
+!
+!
+!
+!
+control-plane
+ service-policy input system-cpp-policy
+!
+!
+!
+line con 0
+ stopbits 1
+line vty 0 4
+ login
+ transport input ssh
+line vty 5 31
+ login
+ transport input ssh
+!
+!
+!
+!
+!
+!
+!
+end
+
+C2#

@@ -1,0 +1,170 @@
+
+Building configuration...
+
+Current configuration : 3975 bytes
+!
+! Last configuration change at 05:29:49 UTC Wed Mar 18 2026
+!
+version 17.12
+service timestamps debug datetime msec
+service timestamps log datetime msec
+platform qfp utilization monitor load 80
+platform punt-keepalive disable-kernel-core
+!
+hostname r1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+login on-success log
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+vtp version 1
+multilink bundle-name authenticated
+!
+pae
+!
+!
+crypto pki trustpoint TP-self-signed-1540038743
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-1540038743
+ revocation-check none
+ rsakeypair TP-self-signed-1540038743
+ hash sha256
+!
+!
+crypto pki certificate chain TP-self-signed-1540038743
+ certificate self-signed 01
+  30820330 30820218 A0030201 02020101 300D0609 2A864886 F70D0101 0B050030 
+  31312F30 2D060355 04030C26 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 31353430 30333837 3433301E 170D3236 30333138 30353238 
+  34365A17 0D333630 33313730 35323834 365A3031 312F302D 06035504 030C2649 
+  4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D31 35343030 
+  33383734 33308201 22300D06 092A8648 86F70D01 01010500 0382010F 00308201 
+  0A028201 0100AF78 25B588A7 78D9ADB1 AEA517DC C20760CC 8A994431 7AEE0EDD 
+  07A95BA9 C6851BCB EB1DD842 1D7FB3DD E40095C2 D90F0515 A62A68C3 8A0CDDEB 
+  8FFD1EA6 F5CA6C5A 78B76E5C FC899E17 4BE9E5F3 4F110292 C449AE69 9C9611BD 
+  CC33AF47 B2823382 4FB4DF38 2E9DB01B 7A5B12F3 C4B90124 17F7FE94 4DBF97C6 
+  34A9210C C95D765A E59EE6CC 41C11ADE 8704D595 00E046A4 70E2FA5E 1A6BC761 
+  6CFD99BE 9FB2D7F2 399F183E 6F184B2E CF2867C2 4AD796F1 556EC920 3F6495D1 
+  CA944270 4C6D169C D74866EF 79437767 E9228967 3237EE4F 8509FB97 F058D883 
+  4779986C 035BD71D 81B41F9C 0CD3C99E DA2EA0DD 848DDDED 4B14C260 07B194CF 
+  8F6ABC4A 2C6F0203 010001A3 53305130 1D060355 1D0E0416 04147C68 D01AADE2 
+  0D398F87 C4080871 2DBC0D35 CE1F301F 0603551D 23041830 1680147C 68D01AAD 
+  E20D398F 87C40808 712DBC0D 35CE1F30 0F060355 1D130101 FF040530 030101FF 
+  300D0609 2A864886 F70D0101 0B050003 82010100 2B4F3BCF A8D84734 C52ECCD6 
+  D89266FC 65A109FD AF7A5C71 E40E76B9 B0DC89CE 990492E7 4FCC6FE8 9ED7F9E7 
+  2350D44F F0A8CD9B 48C132B4 D6DEE309 7E988CE9 22B6A8BE 00A29DEE 34F3E1F2 
+  A0E9F4C1 4C06FCA9 644029EE 846C576B 687EBF0E 64AF2C7E 821561D1 39A2AC2F 
+  F3CEE442 E603AA34 88AC1D59 F538A90F 7778E956 A038DF16 6461EFD3 179C376A 
+  C2B4E2CE BF0B46C5 C44C0ACF 669FB938 AF2E90FC 6267F64B 05C132E2 8ADB3709 
+  B1388138 F8464099 E4C0EF1D 5A91CD93 0AA92096 3E287689 15302EBA 538D5D89 
+  FFE779E5 035297E0 859C7F2C 380E4D96 12E862AA ED475C78 EEE27463 7E988341 
+  F4ADE57A 23D6B7A0 8F72A823 8944099B 1CE2FAFE
+  	quit
+!
+!
+diagnostic bootup level minimal
+!
+license udi pid C8200L-1N-4T sn FGL2803L1QD
+memory free low-watermark processor 61453
+!
+spanning-tree extend system-id
+!
+!
+!
+redundancy
+ mode none
+!
+!
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0/0
+ ip address 172.16.1.190 255.255.255.252
+ ip nat inside
+ negotiation auto
+!
+interface GigabitEthernet0/0/1
+ ip address 172.16.1.178 255.255.255.252
+ ip nat inside
+ negotiation auto
+!
+interface GigabitEthernet0/0/2
+ no ip address
+ negotiation auto
+!
+interface GigabitEthernet0/0/3
+ no ip address
+ negotiation auto
+!
+interface GigabitEthernet0/1/0
+ ip address 172.17.9.5 255.255.255.252
+ ip nat outside
+ negotiation auto
+!
+interface GigabitEthernet0/1/1
+ no ip address
+ negotiation auto
+!
+ip forward-protocol nd
+ip http server
+ip http authentication local
+ip http secure-server
+!
+ip nat inside source static 172.16.1.196 203.149.210.10
+ip nat inside source list 1 interface GigabitEthernet0/1/0 overload
+ip route 0.0.0.0 0.0.0.0 172.17.9.6
+ip route 172.16.1.0 255.255.255.0 172.16.1.177
+ip route 172.16.1.0 255.255.255.0 172.16.1.189
+ip ssh bulk-mode 131072
+!
+!
+ip access-list standard 1
+ 10 permit 172.16.1.0 0.0.0.255
+!
+!
+!
+control-plane
+!
+!
+line con 0
+ stopbits 1
+line aux 0
+line vty 0 4
+ login
+ transport input ssh
+line vty 5 14
+ login
+ transport input ssh
+!
+!
+!
+!
+!
+!
+!
+end
+
+r1#
