@@ -1,3 +1,14 @@
+```mermaid
+graph TD
+PCA --> S1
+PCB --> S2
+S1 ---|TRUNK| S2
+S1 --- S3
+S3 --- S2
+PCC --> S2
+```
+
+
 ## Write your cmds / docs here if you want
 
 So like 2 isp router
